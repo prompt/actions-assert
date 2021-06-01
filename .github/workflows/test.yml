@@ -12,14 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run all
-      - id: action
-        uses: ./
+      - uses: ./
         with:
           assertion: is-equal
           expected: "Hello, World!"
           actual: "Hello, World!"
-      - uses: nick-invision/assert-action@v1
-        with:
-          expected: "Action executed successfully"
-          actual: ${{ steps.action.outputs.result }}
-          comparison: exact

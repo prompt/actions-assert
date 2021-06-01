@@ -1,11 +1,21 @@
 require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ 950:
+/***/ ((__unused_webpack_module, exports) => {
+
+exports.assert = function assert(expected, actual) {
+  return { success: false, message: "false does not match true" };
+}
+
+
+/***/ }),
 
 /***/ 532:
 /***/ ((__unused_webpack_module, exports) => {
 
+"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.executeTests = exports.InputType = void 0;
@@ -26,7 +36,10 @@ exports.executeTests = executeTests;
 /***/ 109:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-
+function __ncc_wildcard$0 (arg) {
+  if (arg === "is-equal.js" || arg === "is-equal") return __webpack_require__(950);
+}
+"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -67,7 +80,7 @@ function run() {
             const test = {
                 expected: { type: execute_1.InputType.String, value: expected },
                 actual: { type: execute_1.InputType.String, value: actual },
-                assertion: yield Promise.resolve().then(() => __importStar(require(`./assertions/${assertion}`)))
+                assertion: yield Promise.resolve().then(() => __importStar(__ncc_wildcard$0(assertion)))
             };
             execute_1.executeTests([test]);
             core.setOutput('result', 'Action executed successfully');
@@ -85,6 +98,7 @@ run();
 /***/ 351:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -183,6 +197,7 @@ function escapeProperty(s) {
 /***/ 186:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -468,6 +483,7 @@ exports.getState = getState;
 /***/ 717:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
+"use strict";
 
 // For internal use, subject to change.
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -516,6 +532,7 @@ exports.issueCommand = issueCommand;
 /***/ 278:
 /***/ ((__unused_webpack_module, exports) => {
 
+"use strict";
 
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -542,6 +559,7 @@ exports.toCommandValue = toCommandValue;
 /***/ 747:
 /***/ ((module) => {
 
+"use strict";
 module.exports = require("fs");;
 
 /***/ }),
@@ -549,6 +567,7 @@ module.exports = require("fs");;
 /***/ 87:
 /***/ ((module) => {
 
+"use strict";
 module.exports = require("os");;
 
 /***/ }),
@@ -556,6 +575,7 @@ module.exports = require("os");;
 /***/ 622:
 /***/ ((module) => {
 
+"use strict";
 module.exports = require("path");;
 
 /***/ })

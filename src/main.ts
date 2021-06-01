@@ -10,7 +10,7 @@ async function run(): Promise<void> {
     const test = {
       expected: {type: InputType.String, value: expected},
       actual: {type: InputType.String, value: actual},
-      assertion: await import(`./assertions/${assertion}`)
+      assertion: await import(`../assertions/${assertion}`)
     }
 
     executeTests([test])
