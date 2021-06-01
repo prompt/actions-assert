@@ -1,3 +1,6 @@
-exports.assert = function assert(expected, actual) {
-  return { success: false, message: "false does not match true" };
+export default function (expected, actual) {
+  return {
+    success: (actual.value == expected.value),
+    message: `compared ${actual} to ${expected}`
+  }
 }

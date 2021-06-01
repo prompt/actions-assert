@@ -3,10 +3,18 @@ require('./sourcemap-register.js');module.exports =
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 950:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-exports.assert = function assert(expected, actual) {
-  return { success: false, message: "false does not match true" };
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(expected, actual) {
+  return {
+    success: (actual.value == expected.value),
+    message: `compared ${actual} to ${expected}`
+  }
 }
 
 
@@ -74,16 +82,16 @@ const execute_1 = __webpack_require__(532);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const expected = core.getInput('expected', { required: false });
-            const actual = core.getInput('expected', { required: true });
-            const assertion = core.getInput('assertion', { required: true });
+            const expected = core.getInput('expected');
+            const actual = core.getInput('actual');
+            const assertion = core.getInput('assertion');
             const test = {
                 expected: { type: execute_1.InputType.String, value: expected },
                 actual: { type: execute_1.InputType.String, value: actual },
-                assertion: yield Promise.resolve().then(() => __importStar(__ncc_wildcard$0(assertion)))
+                assertion: (yield Promise.resolve().then(() => __importStar(__ncc_wildcard$0(assertion)))).default
             };
-            execute_1.executeTests([test]);
-            core.setOutput('result', 'Action executed successfully');
+            // eslint-disable-next-line no-console
+            console.log(execute_1.executeTests([test]));
         }
         catch (error) {
             core.setFailed(error.message);
@@ -612,6 +620,34 @@ module.exports = require("path");;
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/
