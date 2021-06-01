@@ -15,9 +15,9 @@ jobs:
       - id: action
         uses: ./
         with:
+          assertion: is-equal
           expected: "Hello, World!"
           actual: "Hello, World!"
-          comparison: is-equal
       - uses: nick-invision/assert-action@v1
         with:
           expected: "Action executed successfully"
