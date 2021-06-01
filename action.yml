@@ -1,0 +1,12 @@
+name: "Assert"
+branding:
+  icon: "target"
+  color: "green"
+description: "Assert actual is expected"
+author: "Samuel Ryan <sam@samryan.co.uk>"
+outputs:
+  result:
+    description: "Human readable result of the action's execution"
+runs:
+  using: "node12"
+  main: "dist/index.js"

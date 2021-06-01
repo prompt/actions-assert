@@ -1,0 +1,23 @@
+name: "Test Action"
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  test-action-runs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: "actions-assert"
+      - run: npm install
+      - run: npm run all
+      - id: action
+        uses: ./
+      - uses: nick-invision@assert-action@v1
+        with:
+          expected: "Action executed successfully"
+          actual: ${{ steps.action.outputs.result }}
+          comparison: exact
