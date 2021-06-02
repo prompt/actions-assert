@@ -32,7 +32,7 @@ async function run(): Promise<void> {
     }
 
     executeTests([test]).forEach(result => {
-      core.info(result.pass.toString())
+      core.info(`pass: ${result.pass.toString()}`)
       result.pass ? core.info(result.message) : core.setFailed(result.message)
     })
   } catch (error) {
