@@ -4,9 +4,25 @@ branding:
   color: "green"
 description: "Assert actual is expected"
 author: "Samuel Ryan <sam@samryan.co.uk>"
+inputs:
+  actual:
+    description: "Dynamic value to test against"
+    required: true
+  expected:
+    description: "Value that `actual` should match"
+    required: false
+  assertion:
+    description: "Name of the assertion, e.g: `is-equal`"
+    required: true
+  type:
+    description: "Javascript data type that actual and expected will be cast to"
+    default: "string"
+    required: true
 outputs:
-  result:
-    description: "Human readable result of the action's execution"
+  message:
+    description: "Human readable result of the assertion"
+  pass:
+    description: "Boolean describing whether the assertion passed"
 runs:
   using: "node12"
   main: "dist/index.js"

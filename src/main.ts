@@ -28,7 +28,7 @@ async function run(): Promise<void> {
     const test = {
       expected: {type: typeOfInput, value: expected},
       actual: {type: typeOfInput, value: actual},
-      assertion: await eval(`require('./../assertions/${assertion}')`)
+      assertion: await eval(`require('./../assertions/${assertion}.js')`)
     }
 
     executeTests([test]).forEach(result => {
