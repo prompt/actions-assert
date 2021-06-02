@@ -13,20 +13,27 @@ async function run(): Promise<void> {
     const expected: string = core.getInput('expected')
     const actual: string = core.getInput('actual')
     const assertion: string = core.getInput('assertion')
+    const type: string = core.getInput('type')
+
+    if (type in types === false) {
+      throw new Error(
+        `${type} is not a valid type, valid: ${Object.keys(types).join(', ')}`
+      )
+    }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const type: InputType = types[core.getInput('type')]
+    const typeOfInput: InputType = types[type]
 
     const test = {
-      expected: {type, value: expected},
-      actual: {type, value: actual},
-      assertion: (await import(`./../assertions/${assertion}`)).default
+      expected: {type: typeOfInput, value: expected},
+      actual: {type: typeOfInput, value: actual},
+      assertion: await eval(`require('./../assertions/${assertion}')`)
     }
 
     executeTests([test]).forEach(result => {
       core.info(result.pass.toString())
-      result.pass ? core.setFailed(result.message) : core.info(result.message)
+      result.pass ? core.info(result.message) : core.setFailed(result.message)
     })
   } catch (error) {
     core.setFailed(error.message)

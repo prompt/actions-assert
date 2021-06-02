@@ -28,17 +28,3 @@ describe('input coercer', () => {
     expect(valueOfInput(input)).toStrictEqual({greeting: 'Hello, World!'})
   })
 })
-
-describe('typescript', () => {
-  test('gets coercion by type', () => {
-    enum StringInputTypes {
-      'string' = InputType.String,
-      'number' = InputType.Number,
-      'json' = InputType.Json
-    }
-
-    expect(StringInputTypes['string']).toStrictEqual(InputType.String)
-    expect(StringInputTypes['json']).toStrictEqual(InputType.Json)
-    expect(StringInputTypes['number']).toStrictEqual(InputType.Number)
-  })
-})

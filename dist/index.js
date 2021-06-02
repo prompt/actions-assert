@@ -1,29 +1,11 @@
 require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
-
-/***/ 950:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(expected, actual) {
-  return {
-    pass: (actual == expected),
-    message: `compared ${actual} to ${expected}`
-  }
-}
-
-
-/***/ }),
 
 /***/ 532:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.executeTests = void 0;
@@ -41,7 +23,6 @@ exports.executeTests = executeTests;
 /***/ 180:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.valueOfInput = exports.coercions = exports.InputType = void 0;
@@ -71,10 +52,7 @@ exports.valueOfInput = valueOfInput;
 /***/ 109:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-function __ncc_wildcard$0 (arg) {
-  if (arg === "is-equal.js" || arg === "is-equal") return __webpack_require__(950);
-}
-"use strict";
+
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -94,15 +72,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const execute_1 = __webpack_require__(532);
@@ -112,29 +81,31 @@ const types = {
     number: inputs_1.InputType.Number,
     json: inputs_1.InputType.Json
 };
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const expected = core.getInput('expected');
-            const actual = core.getInput('actual');
-            const assertion = core.getInput('assertion');
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            const type = types[core.getInput('type')];
-            const test = {
-                expected: { type, value: expected },
-                actual: { type, value: actual },
-                assertion: (yield Promise.resolve().then(() => __importStar(__ncc_wildcard$0(assertion)))).default
-            };
-            execute_1.executeTests([test]).forEach(result => {
-                core.info(result.pass.toString());
-                result.pass ? core.setFailed(result.message) : core.info(result.message);
-            });
+async function run() {
+    try {
+        const expected = core.getInput('expected');
+        const actual = core.getInput('actual');
+        const assertion = core.getInput('assertion');
+        const type = core.getInput('type');
+        if (type in types === false) {
+            throw new Error(`${type} is not a valid type, valid: ${Object.keys(types).join(', ')}`);
         }
-        catch (error) {
-            core.setFailed(error.message);
-        }
-    });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const t = types[type];
+        const test = {
+            expected: { type: t, value: expected },
+            actual: { type: t, value: actual },
+            assertion: await eval(`require('./../assertions/${assertion}')`)
+        };
+        execute_1.executeTests([test]).forEach(result => {
+            core.info(result.pass.toString());
+            result.pass ? core.info(result.message) : core.setFailed(result.message);
+        });
+    }
+    catch (error) {
+        core.setFailed(error.message);
+    }
 }
 run();
 
@@ -144,7 +115,6 @@ run();
 /***/ 351:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -243,7 +213,6 @@ function escapeProperty(s) {
 /***/ 186:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -529,7 +498,6 @@ exports.getState = getState;
 /***/ 717:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
 
 // For internal use, subject to change.
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -578,7 +546,6 @@ exports.issueCommand = issueCommand;
 /***/ 278:
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -605,7 +572,6 @@ exports.toCommandValue = toCommandValue;
 /***/ 643:
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -1773,7 +1739,6 @@ exports.validate = validate;
 /***/ 747:
 /***/ ((module) => {
 
-"use strict";
 module.exports = require("fs");;
 
 /***/ }),
@@ -1781,7 +1746,6 @@ module.exports = require("fs");;
 /***/ 87:
 /***/ ((module) => {
 
-"use strict";
 module.exports = require("os");;
 
 /***/ }),
@@ -1789,7 +1753,6 @@ module.exports = require("os");;
 /***/ 622:
 /***/ ((module) => {
 
-"use strict";
 module.exports = require("path");;
 
 /***/ })
@@ -1826,34 +1789,6 @@ module.exports = require("path");;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/

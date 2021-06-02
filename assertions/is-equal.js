@@ -1,4 +1,4 @@
-export default function (expected, actual) {
+module.exports = function (expected, actual) {
   return {
     pass: (actual == expected),
     message: `compared ${actual} to ${expected}`

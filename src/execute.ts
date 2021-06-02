@@ -14,7 +14,6 @@ export interface Test {
   expected: Input
   actual: Input
   assertion: Assertion
-  result?: Result
 }
 
 export function executeTests(tests: Test[]): Result[] {
