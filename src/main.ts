@@ -1,5 +1,12 @@
 import * as core from '@actions/core'
-import {executeTests, InputType} from './execute'
+import {executeTests} from './execute'
+import {InputType} from './inputs'
+
+const types = {
+  string: InputType.String,
+  number: InputType.Number,
+  json: InputType.Json
+}
 
 async function run(): Promise<void> {
   try {
@@ -7,14 +14,20 @@ async function run(): Promise<void> {
     const actual: string = core.getInput('actual')
     const assertion: string = core.getInput('assertion')
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const type: InputType = types[core.getInput('type')]
+
     const test = {
-      expected: {type: InputType.String, value: expected},
-      actual: {type: InputType.String, value: actual},
+      expected: {type, value: expected},
+      actual: {type, value: actual},
       assertion: (await import(`./../assertions/${assertion}`)).default
     }
 
-    // eslint-disable-next-line no-console
-    console.log(executeTests([test]))
+    executeTests([test]).forEach(result => {
+      core.info(result.pass.toString())
+      result.pass ? core.setFailed(result.message) : core.info(result.message)
+    })
   } catch (error) {
     core.setFailed(error.message)
   }

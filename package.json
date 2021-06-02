@@ -22,7 +22,8 @@
   "author": "Samuel Ryan <sam@samryan.co.uk>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.3.0"
+    "@actions/core": "^1.3.0",
+    "superstruct": "^0.15.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",

@@ -1,6 +1,6 @@
 export default function (expected, actual) {
   return {
-    success: (actual.value == expected.value),
+    pass: (actual == expected),
     message: `compared ${actual} to ${expected}`
   }
 }

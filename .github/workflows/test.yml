@@ -17,3 +17,9 @@ jobs:
           assertion: is-equal
           expected: "Hello, World!"
           actual: "Hello, World!"
+      - uses: ./
+        continue-on-error: true
+        with:
+          assertion: is-equal
+          expected: "Hello, World!"
+          actual: "Goodbye, World!"
