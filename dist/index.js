@@ -92,14 +92,14 @@ async function run() {
         }
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const t = types[type];
+        const typeOfInput = types[type];
         const test = {
-            expected: { type: t, value: expected },
-            actual: { type: t, value: actual },
-            assertion: await eval(`require('./../assertions/${assertion}')`)
+            expected: { type: typeOfInput, value: expected },
+            actual: { type: typeOfInput, value: actual },
+            assertion: await eval(`require('./../assertions/${assertion}.js')`)
         };
         execute_1.executeTests([test]).forEach(result => {
-            core.info(result.pass.toString());
+            core.info(`pass: ${result.pass.toString()}`);
             result.pass ? core.info(result.message) : core.setFailed(result.message);
         });
     }
