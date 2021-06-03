@@ -1,8 +1,8 @@
-name: "> Assert"
+name: "Assert Actual Is Expected"
 branding:
   icon: "target"
   color: "green"
-description: "Assert actual is expected"
+description: "Write tests in GitHub Workflows for integration tests and build pipelines"
 author: "Samuel Ryan <sam@samryan.co.uk>"
 inputs:
   assertion:
