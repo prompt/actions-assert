@@ -55,7 +55,7 @@ jobs:
     steps:
       - name: Generate SemVer aliases with prefix
         id: prefixed
-        uses: pr-mpt/actions-semver-aliases@v1
+        uses: pr-mpt/actions-semver-aliases@v0
         with:
           version: "3.14.1"
           prefix: "v"

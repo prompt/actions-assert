@@ -1,0 +1,30 @@
+version: '3'
+
+silent: true
+
+tasks:
+  default:
+    cmds:
+      - task --list
+  release:
+    desc: Tag new version of the Action
+    summary: |
+      Tag a new version of the Action against the current HEAD
+
+      VERSION is a required parameter which should be an un-prefixed Semantic
+      Version, e.g: 0.1.0.
+
+      To overwrite an existing tag on the local and remote, pass through the
+      `-f` flag to the underlying git command:
+
+      VERSION=0.1.0 task release -- -f
+    preconditions:
+      - sh: test $VERSION
+        msg: A VERSION parameter is required to create a new release
+    vars:
+      VERSION: '{{default "0.1.0" .VERSION}}'
+    cmds:
+      - git show --oneline -s
+      - |
+        git tag -sam ":tada: Version {{.VERSION}}" v{{.VERSION}} {{.CLI_ARGS}}
+      - git push origin v{{.VERSION}} {{.CLI_ARGS}}
