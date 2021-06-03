@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {executeTests} from './execute'
+import {executeTests, Test, Assertion} from './execute'
 import {InputType} from './inputs'
 
 const types = {
@@ -14,6 +14,7 @@ async function run(): Promise<void> {
     const actual: string = core.getInput('actual')
     const assertion: string = core.getInput('assertion')
     const type: string = core.getInput('type')
+    const each: boolean = core.getBooleanInput('each')
 
     if (type in types === false) {
       throw new Error(
@@ -24,14 +25,21 @@ async function run(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const typeOfInput: InputType = types[type]
+    const assertionFunction: Assertion = await eval(
+      `require('./../assertions/${assertion}.js')`
+    )
 
-    const test = {
-      expected: {type: typeOfInput, value: expected},
-      actual: {type: typeOfInput, value: actual},
-      assertion: await eval(`require('./../assertions/${assertion}.js')`)
-    }
+    const actualValues: String[] = each === true ? actual.split('\n') : [actual]
 
-    executeTests([test]).forEach(result => {
+    const tests: Test[] = actualValues.map(actualValue => {
+      return {
+        expected: {type: typeOfInput, value: expected},
+        actual: {type: typeOfInput, value: actualValue},
+        assertion: assertionFunction
+      }
+    })
+
+    executeTests(tests).forEach(result => {
       core.info(`pass: ${result.pass.toString()}`)
       result.pass ? core.info(result.message) : core.setFailed(result.message)
     })
