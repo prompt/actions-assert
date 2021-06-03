@@ -13,26 +13,26 @@ jobs:
       dismissal: "Bye bye!"
     steps:
       - uses: actions/checkout@v2
-      - name: Developer is greeted
+      - name: Test developer is greeted
         uses: ./
         with:
           assertion: is-equal
-          expected: "Hello, World!"
           actual: "${{ env.greeting }}"
-      - name: Developer is dismissed
+          expected: "Hello, World!"
+      - name: Test developer is dismissed
         uses: ./
         continue-on-error: true
         with:
           assertion: is-equal
-          expected: "Goodbye, World!"
           actual: "${{ env.dismissal }}"
-      - name: Each line is a greeting
+          expected: "Goodbye, World!"
+      - name: Test each line is the greeting
         uses: ./
         with:
           assertion: is-equal
-          expected: "${{ env.greeting }}"
           actual: |
             ${{ env.greeting }}
             ${{ env.greeting }}
             ${{ env.greeting }}
+          expected: "${{ env.greeting }}"
           each: true
