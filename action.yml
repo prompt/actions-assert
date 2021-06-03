@@ -18,6 +18,10 @@ inputs:
     description: "Javascript data type that actual and expected will be cast to"
     default: "string"
     required: true
+  each:
+    description: "Parse multi-line `actual` into many values and assert against each"
+    required: false
+    default: "false"
 outputs:
   message:
     description: "Human readable result of the assertion"

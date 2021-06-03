@@ -87,18 +87,25 @@ async function run() {
         const actual = core.getInput('actual');
         const assertion = core.getInput('assertion');
         const type = core.getInput('type');
+        const each = core.getBooleanInput('each');
         if (type in types === false) {
             throw new Error(`${type} is not a valid type, valid: ${Object.keys(types).join(', ')}`);
         }
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const typeOfInput = types[type];
-        const test = {
-            expected: { type: typeOfInput, value: expected },
-            actual: { type: typeOfInput, value: actual },
-            assertion: await eval(`require('./../assertions/${assertion}.js')`)
-        };
-        execute_1.executeTests([test]).forEach(result => {
+        const assertionFunction = await eval(`require('./../assertions/${assertion}.js')`);
+        const actualValues = each === true ? actual.split('\n') : [actual];
+        core.info(`actual: ${actual}, actualValues: ${actualValues.join(',')}`);
+        core.info(`actual: ${actual}, JSON: ${JSON.stringify(actualValues)}`);
+        const tests = actualValues.map(actualValue => {
+            return {
+                expected: { type: typeOfInput, value: expected },
+                actual: { type: typeOfInput, value: actualValue },
+                assertion: assertionFunction
+            };
+        });
+        execute_1.executeTests(tests).forEach(result => {
             core.info(`pass: ${result.pass.toString()}`);
             result.pass ? core.info(result.message) : core.setFailed(result.message);
         });
