@@ -1,0 +1,28 @@
+name: "Test Action"
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  simple-is-equal-assertions:
+    runs-on: ubuntu-latest
+    env:
+      greeting: "Hello, World!"
+      dismissal: "Bye bye!"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Developer is greeted
+        uses: ./
+        with:
+          actual: "${{ env.greeting }}"
+          expected: "Hello, World!"
+          assertion: is-equal
+      - name: Developer is dismissed
+        uses: ./
+        continue-on-error: true
+        with:
+          actual: "${{ env.dismissal }}"
+          expected: "Goodbye, World!"
+          assertion: is-equal
