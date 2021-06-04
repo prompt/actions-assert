@@ -1,6 +1,6 @@
 # Assert
 
-A GitHub Action for asserting `actual` is `expected` in GitHub Workflows.
+A GitHub Action for asserting **actual** is **expected** in GitHub Workflows.
 Designed for GitHub Action integration tests and build pipelines.
 
 * Cast action input values from strings to `type` for robust assertions
@@ -13,7 +13,7 @@ Designed for GitHub Action integration tests and build pipelines.
 
 | Name | Description | Default | Examples |
 | :- | :---------- | :------ | :------- |
-| **`assertion`** | **Name of a supported [assertion](#assertions)** | | **`is-equal`** |
+| **`assertion`** | **Reference to a supported [assertion](#assertions)** | | **`workflows://is-equal`** |
 | **`actual`** | **Dynamic value to perform test on** | | **`${{steps.m.outputs.greeting}}`** |
 | `expected` | Value that `actual` should match | | `Hello, World!` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
@@ -21,10 +21,25 @@ Designed for GitHub Action integration tests and build pipelines.
 
 ### Assertions
 
-#### `is-equal`
+An `assertion` is a Javascript function that accepts `expected` and `actual`
+parameters then returns a `Result`. A `Result` has a boolean `pass` parameter
+and a `message` string.
 
-Assert that `expected` is equal to `actual` using strict comparison of type and
-value.
+```javascript
+module.exports = function (expected, actual) {
+  return {
+    pass: (actual === expected),
+    message: `compared ${actual} to ${expected}`
+  }
+}
+```
+
+Assertions are resolved using `type` and `name` provided in `type://name`
+format.
+
+| Type | Resolved As |
+| ---- | ----------- |
+| `workflows` | A Javascript file in `.github/workflows/assertions` that exports an assertion as default |
 
 ### Data Types
 
@@ -64,7 +79,7 @@ jobs:
       - name: Assert alias is prefixed
         uses: pr-mpt/actions-assert@v1
         with:
-          assertion: is-equal
+          assertion: workflows://is-equal
           actual: "${{ steps.prefixed.outputs.csv }}"
           expected: "v3"
 ```

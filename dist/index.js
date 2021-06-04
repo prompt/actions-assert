@@ -9,8 +9,23 @@ require('./sourcemap-register.js');module.exports =
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.resolveAssertion = void 0;
-async function resolveAssertion(name) {
-    return eval(`require('./../assertions/${name}.js')`);
+async function loadAssertionFromFile(filename) {
+    return eval(`require('${filename}')`);
+}
+const resolvers = {
+    workflows: async (name) => loadAssertionFromFile(`./../.github/workflows/assertions/${name}.js`)
+};
+async function resolveAssertion(resource) {
+    if (!resource.includes('://')) {
+        throw new URIError(`Assertion reference is not valid, must include type.`);
+    }
+    const [type, name] = resource.split('://');
+    if (!resolvers.hasOwnProperty(type)) {
+        throw new RangeError(`Assertion type ${type} is not supported.`);
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return await resolvers[type](name);
 }
 exports.resolveAssertion = resolveAssertion;
 
