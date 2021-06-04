@@ -90,6 +90,7 @@ jobs:
   readme-example:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Generate SemVer aliases with prefix
         id: prefixed
         uses: pr-mpt/actions-semver-aliases@v1
