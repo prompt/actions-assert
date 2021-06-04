@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import {executeTests, Test, Assertion} from './execute'
 import {InputType} from './inputs'
+import {resolveAssertion} from './assertions'
 
 const types = {
   string: InputType.String,
@@ -25,9 +26,7 @@ async function run(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const typeOfInput: InputType = types[type]
-    const assertionFunction: Assertion = await eval(
-      `require('./../assertions/${assertion}.js')`
-    )
+    const assertionFunction: Assertion = await resolveAssertion(assertion)
 
     const actualValues: String[] = each === true ? actual.split('\n') : [actual]
 

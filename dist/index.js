@@ -3,6 +3,20 @@ require('./sourcemap-register.js');module.exports =
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 18:
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.resolveAssertion = void 0;
+async function resolveAssertion(name) {
+    return eval(`require('./../assertions/${name}.js')`);
+}
+exports.resolveAssertion = resolveAssertion;
+
+
+/***/ }),
+
 /***/ 532:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -76,6 +90,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const execute_1 = __webpack_require__(532);
 const inputs_1 = __webpack_require__(180);
+const assertions_1 = __webpack_require__(18);
 const types = {
     string: inputs_1.InputType.String,
     number: inputs_1.InputType.Number,
@@ -94,10 +109,8 @@ async function run() {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const typeOfInput = types[type];
-        const assertionFunction = await eval(`require('./../assertions/${assertion}.js')`);
+        const assertionFunction = await assertions_1.resolveAssertion(assertion);
         const actualValues = each === true ? actual.split('\n') : [actual];
-        core.info(`actual: ${actual}, actualValues: ${actualValues.join(',')}`);
-        core.info(`actual: ${actual}, JSON: ${JSON.stringify(actualValues)}`);
         const tests = actualValues.map(actualValue => {
             return {
                 expected: { type: typeOfInput, value: expected },
