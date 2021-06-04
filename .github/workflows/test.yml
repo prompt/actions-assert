@@ -64,3 +64,16 @@ jobs:
           assertion: npm://@pr-mpt/assertions-is-equal
           actual: "${{ env.greeting }}"
           expected: "Hello, World!"
+      - name: Test an even number is even
+        uses: ./
+        with:
+          assertion: npm://@pr-mpt/assertions-is-even
+          actual: 2
+          type: number
+      - name: Test an odd number is not even
+        continue-on-error: true
+        uses: ./
+        with:
+          assertion: npm://@pr-mpt/assertions-is-even
+          actual: 3
+          type: number
