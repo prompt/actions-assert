@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test actor is @shrink
-        uses: pr-mpt/actions-assert@v1
+        uses: pr-mpt/actions-assert@v0
         with:
           assertion: npm://@assertions/is-equal
           actual: ${{ github.actor }}
@@ -95,14 +95,14 @@ jobs:
     steps:
       - name: Generate SemVer aliases with prefix
         id: prefixed
-        uses: pr-mpt/actions-semver-aliases@v0
+        uses: pr-mpt/actions-semver-aliases@v1
         with:
           version: "3.14.1"
           prefix: "v"
           major: true
           minor: false
       - name: Assert alias is prefixed
-        uses: pr-mpt/actions-assert@v1
+        uses: pr-mpt/actions-assert@v0
         with:
           assertion: npm://@assertions/starts-with
           each: true
