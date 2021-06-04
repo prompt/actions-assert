@@ -5,34 +5,104 @@ on:
     branches:
       - "**"
 
+env:
+  greeting: "Hello, World!"
+  dismissal: "Bye bye!"
+
 jobs:
   simple-is-equal-assertions:
     runs-on: ubuntu-latest
-    env:
-      greeting: "Hello, World!"
-      dismissal: "Bye bye!"
     steps:
       - uses: actions/checkout@v2
       - name: Test developer is greeted
         uses: ./
         with:
-          assertion: is-equal
+          assertion: workflows://is-equal
           actual: "${{ env.greeting }}"
           expected: "Hello, World!"
       - name: Test developer is dismissed
         uses: ./
         continue-on-error: true
         with:
-          assertion: is-equal
+          assertion: workflows://is-equal
           actual: "${{ env.dismissal }}"
           expected: "Goodbye, World!"
       - name: Test each line is the greeting
         uses: ./
         with:
-          assertion: is-equal
+          assertion: workflows://is-equal
           actual: |
             ${{ env.greeting }}
             ${{ env.greeting }}
             ${{ env.greeting }}
           expected: "${{ env.greeting }}"
           each: true
+  workflows-file-assertions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test an even number is even
+        uses: ./
+        with:
+          assertion: workflows://is-even
+          actual: 2
+          type: number
+      - name: Test an odd number is not even
+        continue-on-error: true
+        uses: ./
+        with:
+          assertion: workflows://is-even
+          actual: 3
+          type: number
+  npm-assertions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test developer is greeted
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: "${{ env.greeting }}"
+          expected: "Hello, World!"
+      - name: Test an even number is even
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-even
+          actual: 2
+          type: number
+      - name: Test an odd number is not even
+        continue-on-error: true
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-even
+          actual: 3
+          type: number
+      - name: Test all first names are Alice
+        uses: ./
+        with:
+          assertion: npm://@assertions/starts-with
+          each: true
+          expected: Alice
+          actual: |
+            Alice T. Ester
+            Alice Smith
+            Alice
+  readme-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate SemVer aliases with prefix
+        id: prefixed
+        uses: pr-mpt/actions-semver-aliases@v1
+        with:
+          version: "3.14.1"
+          prefix: "v"
+          major: true
+          minor: false
+      - name: Assert alias is prefixed
+        uses: ./
+        with:
+          assertion: npm://@assertions/starts-with
+          each: true
+          actual: "${{ steps.prefixed.outputs.list }}"
+          expected: "v"
