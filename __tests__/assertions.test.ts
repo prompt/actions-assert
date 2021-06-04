@@ -3,10 +3,26 @@ import {resolveAssertion} from '../src/assertions'
 describe('assertions resolver', () => {
   describe('workflows resolution', () => {
     it('resolves to workflows assertions directory', () => {
-      const isEven = require(`../.github/workflows/assertions/is-even`)
+      expect.assertions(1)
+
+      const isEven = require('../.github/workflows/assertions/is-even')
 
       resolveAssertion('workflows://is-even').then(assertion =>
-        expect(assertion).toBe(isEven)
+        expect(assertion.toString()).toStrictEqual(isEven.toString())
+      )
+    })
+  })
+
+  describe('npm resolution', () => {
+    it('resolves npm package to module', () => {
+      expect.assertions(1)
+
+      const isEqual = require('@pr-mpt/assertions-is-equal')
+
+      return resolveAssertion(
+        'npm://@pr-mpt/assertions-is-equal'
+      ).then(assertion =>
+        expect(assertion.toString()).toStrictEqual(isEqual.toString())
       )
     })
   })

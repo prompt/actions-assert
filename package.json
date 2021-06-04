@@ -23,9 +23,11 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.3.0",
+    "live-plugin-manager": "^0.15.1",
     "superstruct": "^0.15.2"
   },
   "devDependencies": {
+    "@pr-mpt/assertions-is-equal": "^0.1.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.9",
     "@typescript-eslint/parser": "^4.8.1",

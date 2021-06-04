@@ -54,3 +54,13 @@ jobs:
           assertion: workflows://is-even
           actual: 3
           type: number
+  npm-assertions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test developer is greeted
+        uses: ./
+        with:
+          assertion: npm://@pr-mpt/assertions-is-equal
+          actual: "${{ env.greeting }}"
+          expected: "Hello, World!"

@@ -1,10 +1,20 @@
 import {Assertion} from './execute'
+import {PluginManager} from 'live-plugin-manager'
 
 async function loadAssertionFromFile(filename: string): Promise<Assertion> {
   return eval(`require('${filename}')`)
 }
 
+async function loadAssertionFromNpmPackage(name: string): Promise<Assertion> {
+  const manager = new PluginManager()
+
+  await manager.install(name)
+
+  return manager.require(name)
+}
+
 const resolvers = {
+  npm: loadAssertionFromNpmPackage,
   workflows: async (name: string): Promise<Assertion> =>
     loadAssertionFromFile(`./../.github/workflows/assertions/${name}.js`)
 }
@@ -22,5 +32,5 @@ export async function resolveAssertion(resource: string): Promise<Assertion> {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return await resolvers[type](name)
+  return resolvers[type](name)
 }
