@@ -61,19 +61,47 @@ jobs:
       - name: Test developer is greeted
         uses: ./
         with:
-          assertion: npm://@pr-mpt/assertions-is-equal
+          assertion: npm://@assertions/is-equal
           actual: "${{ env.greeting }}"
           expected: "Hello, World!"
       - name: Test an even number is even
         uses: ./
         with:
-          assertion: npm://@pr-mpt/assertions-is-even
+          assertion: npm://@assertions/is-even
           actual: 2
           type: number
       - name: Test an odd number is not even
         continue-on-error: true
         uses: ./
         with:
-          assertion: npm://@pr-mpt/assertions-is-even
+          assertion: npm://@assertions/is-even
           actual: 3
           type: number
+      - name: Test all first names are Alice
+        uses: ./
+        with:
+          assertion: npm://@assertions/starts-with
+          each: true
+          expected: Alice
+          actual: |
+            Alice T. Ester
+            Alice Smith
+            Alice
+  readme-example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate SemVer aliases with prefix
+        id: prefixed
+        uses: pr-mpt/actions-semver-aliases@v0
+        with:
+          version: "3.14.1"
+          prefix: "v"
+          major: true
+          minor: false
+      - name: Assert alias is prefixed
+        uses: pr-mpt/actions-assert@v1
+        with:
+          assertion: npm://@assertions/starts-with
+          each: true
+          actual: "${{ steps.prefixed.outputs.list }}"
+          expected: "v"

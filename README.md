@@ -3,17 +3,30 @@
 A GitHub Action for asserting **actual** is **expected** in GitHub Workflows.
 Designed for GitHub Action integration tests and build pipelines.
 
-* Cast action input values from strings to `type` for robust assertions
+* Cast action input values from strings to `type` for type safety
 * Add custom Javascript assertions to your project to meet unique testing requirements
 * Run tests against multiple values using `each`
+
+```yaml
+jobs:
+  test-actor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test actor is @shrink
+        uses: pr-mpt/actions-assert@v1
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ github.actor }}
+          expected: shrink
+```
 
 [Jump to examples &darr;](#examples)
 
 ## Inputs
 
 | Name | Description | Default | Examples |
-| :- | :---------- | :------ | :------- |
-| **`assertion`** | **Reference to a supported [assertion](#assertions)** | | **`workflows://is-equal`** |
+| :--- | :---------- | :------ | :------- |
+| **`assertion`** | **Reference to a supported [assertion](#assertions)** | | **`npm://@assertions/is-equal`** |
 | **`actual`** | **Dynamic value to perform test on** | | **`${{steps.m.outputs.greeting}}`** |
 | `expected` | Value that `actual` should match | | `Hello, World!` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
@@ -34,12 +47,24 @@ module.exports = function (expected, actual) {
 }
 ```
 
-Assertions are resolved using `type` and `name` provided in `type://name`
+Assertions are resolved using `type` and `name` accepted in `type://name`
 format.
 
-| Type | Resolved As |
-| ---- | ----------- |
-| `workflows` | A Javascript file in `.github/workflows/assertions` that exports an assertion as default |
+| Type | Resolved To | Example |
+| :--- | :---------- | :------ |
+| `workflows` | A Javascript file in `.github/workflows/assertions` that exports an assertion as default | `workflows://is-equal` |
+| `npm` | An [npm][npm] package with an assertion as the [main exported module][package.json/main] | `npm://@assertions/is-equal` |
+
+#### `npm`
+
+A collection of assertions is available via npm within the
+[`@assertions`][npm/@assertions] organisation on npm.
+
+| Package | Test |
+| :------ | :---------- |
+| [@assertions/is-equal] | `actual` is equal in value and type to `expected` |
+| [@assertions/is-even] | `actual` is an even number |
+| [@assertions/starts-with] | `actual` starts with `expected` |
 
 ### Data Types
 
@@ -52,7 +77,7 @@ format.
 ## Outputs
 
 | Name | Description | Example |
-| :- | :---------- | :-------|
+| :--- | :---------- | :-------|
 | `message` | Human readable result of the assertion | `Value is Hello, World!` |
 | `pass` | Boolean describing whether the assertion passed | `true` |
 
@@ -79,12 +104,19 @@ jobs:
       - name: Assert alias is prefixed
         uses: pr-mpt/actions-assert@v1
         with:
-          assertion: workflows://is-equal
-          actual: "${{ steps.prefixed.outputs.csv }}"
-          expected: "v3"
+          assertion: npm://@assertions/starts-with
+          each: true
+          actual: "${{ steps.prefixed.outputs.list }}"
+          expected: "v"
 ```
 
 [javascript/string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
 [javascript/number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number
 [javascript/json/parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
 [pr-mpt/actions-semver-aliases]: https://github.com/pr-mpt/actions-semver-aliases
+[npm]: https://npmjs.com
+[package.json/main]: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
+[@assertions/is-equal]: https://npmjs.com/package/@assertions/is-equal
+[@assertions/is-even]: https://npmjs.com/package/@assertions/is-even
+[@assertions/starts-with]: https://npmjs.com/package/@assertions/starts-with
+[npm/@assertions]: https://www.npmjs.com/org/assertions
