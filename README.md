@@ -62,8 +62,8 @@ A collection of assertions is available via npm within the
 
 | Package | Test |
 | :------ | :---------- |
-| [@assertions/is-equal] | `actual` is equal in value and type to `expected` |
-| [@assertions/is-even] | `actual` is an even number |
+| [@assertions/is-equal] | `actual` is equal in value to `expected` |
+| [@assertions/is-strictly-equal] | `actual` is equal in value and type to `expected` |
 | [@assertions/starts-with] | `actual` starts with `expected` |
 
 ### Data Types
@@ -117,6 +117,6 @@ jobs:
 [npm]: https://npmjs.com
 [package.json/main]: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
 [@assertions/is-equal]: https://npmjs.com/package/@assertions/is-equal
-[@assertions/is-even]: https://npmjs.com/package/@assertions/is-even
+[@assertions/is-strictly-equal]: https://npmjs.com/package/@assertions/is-strictly-equal
 [@assertions/starts-with]: https://npmjs.com/package/@assertions/starts-with
 [npm/@assertions]: https://www.npmjs.com/org/assertions
