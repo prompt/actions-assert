@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test actor is @shrink
-        uses: pr-mpt/actions-assert@v0
+        uses: pr-mpt/actions-assert@v1
         with:
           assertion: npm://@assertions/is-equal
           actual: ${{ github.actor }}
@@ -102,7 +102,7 @@ jobs:
           major: true
           minor: false
       - name: Assert alias is prefixed
-        uses: pr-mpt/actions-assert@v0
+        uses: pr-mpt/actions-assert@v1
         with:
           assertion: npm://@assertions/starts-with
           each: true
