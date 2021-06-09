@@ -144,8 +144,9 @@ async function run() {
             };
         });
         execute_1.executeTests(tests).forEach(result => {
-            core.info(`pass: ${result.pass.toString()}`);
-            result.pass ? core.info(result.message) : core.setFailed(result.message);
+            result.pass
+                ? core.info(`✅ ${result.message}`)
+                : core.setFailed(`❌ ${result.message}`);
             core.setOutput('message', result.message);
             core.setOutput('pass', result.pass.toString());
         });
