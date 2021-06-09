@@ -121,12 +121,12 @@ jobs:
         uses: ./
         with:
           assertion: npm://@assertions/is-equal
-          actual: ${{ steps.equal-strings.outputs.message }}
+          actual: "${{ steps.equal-strings.outputs.message }}"
           # Expect the `message` from ./assertions/is-equal.js
           expected: "compared Hello, World! to Hello, World!"
       - name: Test `pass` output is set from Result `pass`
         uses: ./
         with:
           assertion: npm://@assertions/is-equal
-          actual: ${{ steps.equal-strings.outputs.pass }}
+          actual: "${{ steps.equal-strings.outputs.pass }}"
           expected: "true"
