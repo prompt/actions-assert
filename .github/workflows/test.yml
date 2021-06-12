@@ -133,7 +133,7 @@ jobs:
   test-dist:
     runs-on: ubuntu-latest
     steps:
-      - uses: pr-mpt/actions-assert@v1
+      - uses: pr-mpt/actions-assert@2.0.0-alpha
         with:
           assertion: local://.github/workflows/assertions/is-equal
           actual: "Hello, World!"
