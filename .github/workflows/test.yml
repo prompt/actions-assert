@@ -8,6 +8,7 @@ on:
 env:
   greeting: "Hello, World!"
   dismissal: "Bye bye!"
+  version: "v2.0.0-alpha"
 
 jobs:
   simple-is-equal-assertions:
@@ -133,7 +134,8 @@ jobs:
   test-dist:
     runs-on: ubuntu-latest
     steps:
-      - uses: pr-mpt/actions-assert@v2.0.0-alpha
+      - uses: actions/checkout@v2
+      - uses: pr-mpt/actions-assert@${{ env.version }}
         with:
           assertion: local://.github/workflows/assertions/is-equal
           actual: "Hello, World!"
