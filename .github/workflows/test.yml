@@ -130,3 +130,11 @@ jobs:
           assertion: npm://@assertions/is-equal
           actual: "${{ steps.equal-strings.outputs.pass }}"
           expected: "true"
+  test-dist-v1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pr-mpt/actions-assert@v1
+        with:
+          assertion: workflows://is-equal
+          actual: "Hello, World!"
+          expected: "Hello, World!"
