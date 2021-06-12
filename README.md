@@ -4,7 +4,8 @@ A GitHub Action for asserting **actual** is **expected** in GitHub Workflows.
 Designed for GitHub Action integration tests and build pipelines.
 
 * Cast action input values from strings to `type` for type safety
-* Add custom Javascript assertions to your project to meet unique testing requirements
+* Require and distribute reusable assertions via [npm][npm]
+* Write custom Javascript assertions to meet unique testing requirements
 * Run tests against multiple values using `each`
 
 ```yaml
@@ -13,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test actor is @shrink
-        uses: pr-mpt/actions-assert@v1
+        uses: pr-mpt/actions-assert@v2
         with:
           assertion: npm://@assertions/is-equal
-          actual: ${{ github.actor }}
+          actual: "${{ github.actor }}"
           expected: shrink
 ```
 
@@ -26,11 +27,12 @@ jobs:
 
 | Name | Description | Default | Examples |
 | :--- | :---------- | :------ | :------- |
-| **`assertion`** | **Reference to a supported [assertion](#assertions)** | | **`npm://@assertions/is-equal`** |
-| **`actual`** | **Dynamic value to perform test on** | | **`${{steps.m.outputs.greeting}}`** |
-| `expected` | Value that `actual` should match | | `Hello, World!` |
+| **`assertion`** | **Reference to a supported [assertion](#assertions)** in `source://name` format | | **`npm://@assertions/is-equal`**<br/>**`local://is-even`** |
+| `expected` | Value the assertion is looking for | | `Hello, World!` |
+| `actual` | Value the assertion will test against the expected value | | `${{steps.fields.outputs.greeting}}` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
 | `each` | Parse multi-line `actual` into many values and test each | `false` | `true` `false` |
+| `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
 
 ### Assertions
 
@@ -47,13 +49,13 @@ module.exports = function (expected, actual) {
 }
 ```
 
-Assertions are resolved using `type` and `name` accepted in `type://name`
+Assertions are resolved using `source` and `name` accepted in `source://name`
 format.
 
-| Type | Resolved To | Example |
+| Source | Resolved To | Example |
 | :--- | :---------- | :------ |
-| `workflows` | A Javascript file in `.github/workflows/assertions` that exports an assertion as default | `workflows://is-equal` |
 | `npm` | An [npm][npm] package with an assertion as the [main exported module][package.json/main] | `npm://@assertions/is-equal` |
+| `local` | A Javascript file (on the runner's filesystem) that exports an assertion as default | `local://is-equal` |
 
 #### `npm`
 
@@ -102,7 +104,7 @@ jobs:
           major: true
           minor: false
       - name: Assert alias is prefixed
-        uses: pr-mpt/actions-assert@v1
+        uses: pr-mpt/actions-assert@v2
         with:
           assertion: npm://@assertions/starts-with
           each: true
@@ -120,3 +122,4 @@ jobs:
 [@assertions/is-strictly-equal]: https://npmjs.com/package/@assertions/is-strictly-equal
 [@assertions/starts-with]: https://npmjs.com/package/@assertions/starts-with
 [npm/@assertions]: https://www.npmjs.com/org/assertions
+[workflows/workspace]: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context

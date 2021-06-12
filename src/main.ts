@@ -16,6 +16,7 @@ async function run(): Promise<void> {
     const assertion: string = core.getInput('assertion')
     const type: string = core.getInput('type')
     const each: boolean = core.getBooleanInput('each')
+    const localPath: string = core.getInput('local-path')
 
     if (type in types === false) {
       throw new Error(
@@ -26,7 +27,10 @@ async function run(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const typeOfInput: InputType = types[type]
-    const assertionFunction: Assertion = await resolveAssertion(assertion)
+    const assertionFunction: Assertion = await resolveAssertion(
+      assertion,
+      localPath
+    )
 
     const actualValues: String[] = each === true ? actual.split('\n') : [actual]
 

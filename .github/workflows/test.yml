@@ -17,20 +17,20 @@ jobs:
       - name: Test developer is greeted
         uses: ./
         with:
-          assertion: workflows://is-equal
+          assertion: local://.github/workflows/assertions/is-equal
           actual: "${{ env.greeting }}"
           expected: "Hello, World!"
       - name: Test developer is dismissed
         uses: ./
         continue-on-error: true
         with:
-          assertion: workflows://is-equal
+          assertion: local://.github/workflows/assertions/is-equal
           actual: "${{ env.dismissal }}"
           expected: "Goodbye, World!"
       - name: Test each line is the greeting
         uses: ./
         with:
-          assertion: workflows://is-equal
+          assertion: local://.github/workflows/assertions/is-equal
           actual: |
             ${{ env.greeting }}
             ${{ env.greeting }}
@@ -44,14 +44,14 @@ jobs:
       - name: Test an even number is even
         uses: ./
         with:
-          assertion: workflows://is-even
+          assertion: local://.github/workflows/assertions/is-even
           actual: 2
           type: number
       - name: Test an odd number is not even
         continue-on-error: true
         uses: ./
         with:
-          assertion: workflows://is-even
+          assertion: local://.github/workflows/assertions/is-even
           actual: 3
           type: number
   npm-assertions:
@@ -114,7 +114,7 @@ jobs:
         id: equal-strings
         uses: ./
         with:
-          assertion: workflows://is-equal
+          assertion: local://.github/workflows/assertions/is-equal
           actual: "Hello, World!"
           expected: "Hello, World!"
       - name: Test `message` output is set from Result `message`
@@ -130,11 +130,11 @@ jobs:
           assertion: npm://@assertions/is-equal
           actual: "${{ steps.equal-strings.outputs.pass }}"
           expected: "true"
-  test-dist-v1:
+  test-dist:
     runs-on: ubuntu-latest
     steps:
       - uses: pr-mpt/actions-assert@v1
         with:
-          assertion: workflows://is-equal
+          assertion: local://.github/workflows/assertions/is-equal
           actual: "Hello, World!"
           expected: "Hello, World!"

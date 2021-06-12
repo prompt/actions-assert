@@ -8,11 +8,11 @@ inputs:
   assertion:
     description: "Name of the assertion to run against value"
     required: true
+  expected:
+    description: "Value the assertion is looking for"
+    required: false
   actual:
     description: "Dynamic value to test against"
-    required: true
-  expected:
-    description: "Value that `actual` should match"
     required: false
   type:
     description: "Javascript data type that actual and expected will be cast to"
@@ -20,8 +20,12 @@ inputs:
     required: true
   each:
     description: "Parse multi-line `actual` into many values and assert against each"
-    required: false
     default: "false"
+    required: false
+  local-path:
+    description: "Path to assertions on the runner's filesystem"
+    default: "${{ github.workspace }}"
+    required: true
 outputs:
   message:
     description: "Human readable result of the assertion"
