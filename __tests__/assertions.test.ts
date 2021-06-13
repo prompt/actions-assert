@@ -1,13 +1,16 @@
 import {resolveAssertion} from '../src/assertions'
 
+const isEven = require(`../.github/workflows/assertions/is-even.js`)
+
 describe('assertions resolver', () => {
-  describe('workflows resolution', () => {
-    it('resolves to workflows assertions directory', () => {
+  describe('local resolution', () => {
+    it('resolves to specified assertions directory', () => {
       expect.assertions(1)
 
-      const isEven = require('../.github/workflows/assertions/is-even')
-
-      resolveAssertion('workflows://is-even').then(assertion =>
+      resolveAssertion(
+        'local://is-even',
+        '../.github/workflows/assertions'
+      ).then(assertion =>
         expect(assertion.toString()).toStrictEqual(isEven.toString())
       )
     })
@@ -27,16 +30,16 @@ describe('assertions resolver', () => {
     })
   })
 
-  it('throws error when no type is provided', () => {
+  it('throws error when no source is provided', () => {
     expect.assertions(1)
-    return resolveAssertion('without-type').catch(e =>
+    return resolveAssertion('without-source').catch(e =>
       expect(e instanceof URIError).toBe(true)
     )
   })
 
-  it('throws error when type does not have resolver', () => {
+  it('throws error when source does not have resolver', () => {
     expect.assertions(1)
-    return resolveAssertion('invalid-type://example').catch(e =>
+    return resolveAssertion('invalid-source://example').catch(e =>
       expect(e instanceof RangeError).toBe(true)
     )
   })

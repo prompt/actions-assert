@@ -10,9 +10,6 @@ require('./sourcemap-register.js');module.exports =
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.resolveAssertion = void 0;
 const live_plugin_manager_1 = __webpack_require__(1290);
-async function loadAssertionFromFile(filename) {
-    return eval(`require('${filename}')`);
-}
 async function loadAssertionFromNpmPackage(name) {
     const manager = new live_plugin_manager_1.PluginManager();
     await manager.install(name);
@@ -20,19 +17,19 @@ async function loadAssertionFromNpmPackage(name) {
 }
 const resolvers = {
     npm: loadAssertionFromNpmPackage,
-    workflows: async (name) => loadAssertionFromFile(`./../.github/workflows/assertions/${name}.js`)
+    local: async (name, path) => eval(`require('${path}/${name}.js')`)
 };
-async function resolveAssertion(resource) {
+async function resolveAssertion(resource, localPath = '') {
     if (!resource.includes('://')) {
         throw new URIError(`Assertion reference is not valid, must include type.`);
     }
-    const [type, name] = resource.split('://');
-    if (!resolvers.hasOwnProperty(type)) {
-        throw new RangeError(`Assertion type ${type} is not supported.`);
+    const [source, name] = resource.split('://');
+    if (!resolvers.hasOwnProperty(source)) {
+        throw new RangeError(`Assertion source ${source} is not supported.`);
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return resolvers[type](name);
+    return resolvers[source](name, localPath);
 }
 exports.resolveAssertion = resolveAssertion;
 
@@ -128,13 +125,14 @@ async function run() {
         const assertion = core.getInput('assertion');
         const type = core.getInput('type');
         const each = core.getBooleanInput('each');
+        const localPath = core.getInput('local-path');
         if (type in types === false) {
             throw new Error(`${type} is not a valid type, valid: ${Object.keys(types).join(', ')}`);
         }
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const typeOfInput = types[type];
-        const assertionFunction = await assertions_1.resolveAssertion(assertion);
+        const assertionFunction = await assertions_1.resolveAssertion(assertion, localPath);
         const actualValues = each === true ? actual.split('\n') : [actual];
         const tests = actualValues.map(actualValue => {
             return {
