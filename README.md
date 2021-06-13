@@ -1,11 +1,11 @@
 # Assert
 
 A GitHub Action for asserting **actual** is **expected** in GitHub Workflows.
-Designed for GitHub Action integration tests and build pipelines.
+Designed for GitHub Action integration tests and robust build pipelines.
 
 * Cast action input values from strings to `type` for type safety
-* Require and distribute reusable assertions via [npm][npm]
-* Write custom Javascript assertions to meet unique testing requirements
+* Distribute reusable assertions via [npm][npm]
+* Write local Javascript assertions to meet project-specific testing needs
 * Run tests against multiple values using `each`
 
 ```yaml
