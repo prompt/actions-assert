@@ -67,6 +67,7 @@ A collection of assertions is available via npm within the
 | [@assertions/is-equal] | `actual` is equal in value to `expected` |
 | [@assertions/is-strictly-equal] | `actual` is equal in value and type to `expected` |
 | [@assertions/starts-with] | `actual` starts with `expected` |
+| [@assertions/directory-exists] | path `actual` exists and is a directory |
 
 ### Data Types
 
@@ -121,5 +122,6 @@ jobs:
 [@assertions/is-equal]: https://npmjs.com/package/@assertions/is-equal
 [@assertions/is-strictly-equal]: https://npmjs.com/package/@assertions/is-strictly-equal
 [@assertions/starts-with]: https://npmjs.com/package/@assertions/starts-with
+[@assertions/directory-exists]: https://npmjs.com/package/@assertions/directory-exists
 [npm/@assertions]: https://www.npmjs.com/org/assertions
 [workflows/workspace]: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
