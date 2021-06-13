@@ -69,7 +69,7 @@ A collection of first-party assertions is available on npm within the
 | [@assertions/is-equal] | `actual` is equal in value to `expected` |
 | [@assertions/is-strictly-equal] | `actual` is equal in value and type to `expected` |
 | [@assertions/starts-with] | `actual` starts with `expected` |
-| [@assertions/directory-exists] | path `actual` exists and is a directory |
+| [@assertions/directory-exists] | path `expected` exists and is a directory |
 
 Third-party assertions are discoverable via
 [:mag_right: `actions-assert` on npm][npm/search].
