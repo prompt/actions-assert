@@ -4,7 +4,7 @@ A GitHub Action for asserting **actual** is **expected** in GitHub Workflows.
 Designed for GitHub Action integration tests and robust build pipelines.
 
 * Cast action input values from strings to `type` for type safety
-* Distribute reusable assertions via [npm][npm]
+* Distribute reusable assertions via npm
 * Write local Javascript assertions to meet project-specific testing needs
 * Run tests against multiple values using `each`
 
@@ -49,18 +49,20 @@ module.exports = function (expected, actual) {
 }
 ```
 
-Assertions are resolved using `source` and `name` accepted in `source://name`
-format.
+Assertion references are resolved using `source` and `name` accepted in
+`source://name` format.
+
+#### Sources
 
 | Source | Resolved To | Example |
 | :--- | :---------- | :------ |
-| `npm` | An [npm][npm] package with an assertion as the [main exported module][package.json/main] | `npm://@assertions/is-equal` |
+| `npm` | An [npm<sup>&neArr;</sup>][npm] package with an assertion as the [main exported module<sup>&neArr;</sup>][package.json/main] | `npm://@assertions/is-equal` |
 | `local` | A Javascript file (on the runner's filesystem) that exports an assertion as default | `local://is-equal` |
 
-#### `npm`
+##### `npm`
 
-A collection of assertions is available via npm within the
-[`@assertions`][npm/@assertions] organisation on npm.
+A collection of first-party assertions is available on npm within the
+[`@assertions`<sup>&neArr;</sup>][npm/@assertions] organisation.
 
 | Package | Test |
 | :------ | :---------- |
@@ -69,13 +71,22 @@ A collection of assertions is available via npm within the
 | [@assertions/starts-with] | `actual` starts with `expected` |
 | [@assertions/directory-exists] | path `actual` exists and is a directory |
 
+Third-party assertions are discoverable via
+[:mag_right: `actions-assert` on npm][npm/search].
+
+###### Distributing Assertions
+
+Add :bookmark: `actions-assert` to
+[package.json `keywords`<sup>&neArr;</sup>][package.json/keywords] for an
+assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
+
 ### Data Types
 
 | Name | Description |
 | :--- | :---------- |
-| `string` | A Javascript [`String`][javascript/string] |
-| `number` | A Javascript [`Number`][javascript/number] |
-| `json` | JavaScript value or object from [`JSON.parse()`][javascript/json/parse] |
+| `string` | A Javascript [`String`<sup>&neArr;</sup>][javascript/string] |
+| `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number] |
+| `json` | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
 
 ## Outputs
 
@@ -118,7 +129,9 @@ jobs:
 [javascript/json/parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
 [pr-mpt/actions-semver-aliases]: https://github.com/pr-mpt/actions-semver-aliases
 [npm]: https://npmjs.com
+[npm/search]: https://www.npmjs.com/search?q=keywords%3Aactions-assert
 [package.json/main]: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
+[package.json/keywords]: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#keywords
 [@assertions/is-equal]: https://npmjs.com/package/@assertions/is-equal
 [@assertions/is-strictly-equal]: https://npmjs.com/package/@assertions/is-strictly-equal
 [@assertions/starts-with]: https://npmjs.com/package/@assertions/starts-with
