@@ -27,7 +27,7 @@ jobs:
 
 | Name | Description | Default | Examples |
 | :--- | :---------- | :------ | :------- |
-| **`assertion`** | **Reference to a supported [assertion](#assertions)** in `source://name` format | | **`npm://@assertions/is-equal`**<br/>**`local://is-even`** |
+| **`assertion`** | **Reference to a supported [assertion](#assertions) in `source://name` format** | | **`npm://@assertions/is-equal`**<br/>**`local://is-even`** |
 | `expected` | Value the assertion is looking for | | `Hello, World!` |
 | `actual` | Value the assertion will test against the expected value | | `${{steps.fields.outputs.greeting}}` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
