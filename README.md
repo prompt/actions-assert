@@ -21,7 +21,8 @@ jobs:
           expected: shrink
 ```
 
-[Jump to examples &darr;](#examples)
+:package: [Automatic Release Packaging](#automatic-release-packaging) is used by
+this action, please reference by tag or commit hash in your Workflows.
 
 ## Inputs
 
@@ -124,6 +125,23 @@ jobs:
           expected: "v"
 ```
 
+## Automatic Release Packaging
+
+Packaging (creation of `dist`) happens automatically when a new tag is created.
+Any reference to this Action in a Workflow must use a [tag][tags] (mutable) or
+the commit hash of a tag (immutable).
+
+```yaml
+✅ uses: pr-mpt/actions-assert@v2
+✅ uses: pr-mpt/actions-assert@v2.0.0
+✅ uses: pr-mpt/actions-assert@0d888b7601af756fff1ffc9d0d0dca8fcc214f0a
+❌ uses: pr-mpt/actions-assert@main
+```
+
+The blog post
+[Package GitHub Actions automatically with GitHub Actions][blog/package-automatically]
+describes how this achieved.
+
 [javascript/string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
 [javascript/number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number
 [javascript/json/parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
@@ -138,3 +156,5 @@ jobs:
 [@assertions/directory-exists]: https://npmjs.com/package/@assertions/directory-exists
 [npm/@assertions]: https://www.npmjs.com/org/assertions
 [workflows/workspace]: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
+[blog/package-automatically]: https://medium.com/prompt/package-github-actions-automatically-with-github-actions-a70b9f7bae4
+[tags]: https://github.com/pr-mpt/actions-assert/tags

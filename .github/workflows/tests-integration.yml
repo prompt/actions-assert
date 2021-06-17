@@ -1,4 +1,4 @@
-name: "Test Action"
+name: "Tests (Integration)"
 
 on:
   push:
@@ -8,12 +8,33 @@ on:
 env:
   greeting: "Hello, World!"
   dismissal: "Bye bye!"
+  dist-path: "dist"
 
 jobs:
-  simple-is-equal-assertions:
+  upload-dist:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Javascript dependencies with npm
+        if: ${{ github.ref != 'refs/heads/release' }}
+        run: npm install
+      - name: Package action for integration tests
+        if: ${{ github.ref != 'refs/heads/release' }}
+        run: npm run package
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
+  simple-is-equal-assertions:
+    runs-on: ubuntu-latest
+    needs:
+      - upload-dist
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
       - name: Test developer is greeted
         uses: ./
         with:
@@ -39,8 +60,14 @@ jobs:
           each: true
   workflows-file-assertions:
     runs-on: ubuntu-latest
+    needs:
+      - upload-dist
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
       - name: Test an even number is even
         uses: ./
         with:
@@ -56,8 +83,14 @@ jobs:
           type: number
   npm-assertions:
     runs-on: ubuntu-latest
+    needs:
+      - upload-dist
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
       - name: Test developer is greeted
         uses: ./
         with:
@@ -89,8 +122,14 @@ jobs:
             Alice
   readme-example:
     runs-on: ubuntu-latest
+    needs:
+      - upload-dist
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
       - name: Generate SemVer aliases with prefix
         id: prefixed
         uses: pr-mpt/actions-semver-aliases@v1
@@ -108,8 +147,14 @@ jobs:
           expected: "v"
   test-outputs:
     runs-on: ubuntu-latest
+    needs:
+      - upload-dist
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
       - name: Perform simple passing string equality assertion
         id: equal-strings
         uses: ./
@@ -130,12 +175,3 @@ jobs:
           assertion: npm://@assertions/is-equal
           actual: "${{ steps.equal-strings.outputs.pass }}"
           expected: "true"
-  test-dist:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: pr-mpt/actions-assert@v2
-        with:
-          assertion: local://.github/workflows/assertions/is-equal
-          actual: "Hello, World!"
-          expected: "Hello, World!"
