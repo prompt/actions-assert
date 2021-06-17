@@ -6,8 +6,6 @@ on:
       - "**"
 
 env:
-  greeting: "Hello, World!"
-  dismissal: "Bye bye!"
   dist-path: "dist"
 
 jobs:
@@ -25,7 +23,7 @@ jobs:
         with:
           name: dist
           path: ${{ env.dist-path }}
-  simple-is-equal-assertions:
+  test-local-assertion:
     runs-on: ubuntu-latest
     needs:
       - upload-dist
@@ -35,30 +33,30 @@ jobs:
         with:
           name: dist
           path: ${{ env.dist-path }}
-      - name: Test developer is greeted
+      - name: Expect two equal values to pass an equality test
         uses: ./
         with:
           assertion: local://.github/workflows/assertions/is-equal
-          actual: "${{ env.greeting }}"
+          actual: "Hello, World!"
           expected: "Hello, World!"
-      - name: Test developer is dismissed
+      - name: Expect two different values not to pass an equality test
         uses: ./
         continue-on-error: true
         with:
           assertion: local://.github/workflows/assertions/is-equal
-          actual: "${{ env.dismissal }}"
+          actual: "Bye bye!"
           expected: "Goodbye, World!"
-      - name: Test each line is the greeting
+      - name: Expect many values to each pass an equality test
         uses: ./
         with:
           assertion: local://.github/workflows/assertions/is-equal
           actual: |
-            ${{ env.greeting }}
-            ${{ env.greeting }}
-            ${{ env.greeting }}
-          expected: "${{ env.greeting }}"
+            Hello, World!
+            Hello, World!
+            Hello, World!
+          expected: "Hello, World!"
           each: true
-  workflows-file-assertions:
+  test-type-based-assertion:
     runs-on: ubuntu-latest
     needs:
       - upload-dist
@@ -68,20 +66,13 @@ jobs:
         with:
           name: dist
           path: ${{ env.dist-path }}
-      - name: Test an even number is even
+      - name: Expect value to be tested as type
         uses: ./
         with:
           assertion: local://.github/workflows/assertions/is-even
           actual: 2
           type: number
-      - name: Test an odd number is not even
-        continue-on-error: true
-        uses: ./
-        with:
-          assertion: local://.github/workflows/assertions/is-even
-          actual: 3
-          type: number
-  npm-assertions:
+  test-npm-assertion:
     runs-on: ubuntu-latest
     needs:
       - upload-dist
@@ -91,36 +82,13 @@ jobs:
         with:
           name: dist
           path: ${{ env.dist-path }}
-      - name: Test developer is greeted
+      - name: Expect two equal values to pass an equality test using an assertion from npm
         uses: ./
         with:
           assertion: npm://@assertions/is-equal
-          actual: "${{ env.greeting }}"
+          actual: "Hello, World!"
           expected: "Hello, World!"
-      - name: Test an even number is even
-        uses: ./
-        with:
-          assertion: npm://@assertions/is-even
-          actual: 2
-          type: number
-      - name: Test an odd number is not even
-        continue-on-error: true
-        uses: ./
-        with:
-          assertion: npm://@assertions/is-even
-          actual: 3
-          type: number
-      - name: Test all first names are Alice
-        uses: ./
-        with:
-          assertion: npm://@assertions/starts-with
-          each: true
-          expected: Alice
-          actual: |
-            Alice T. Ester
-            Alice Smith
-            Alice
-  readme-example:
+  test-readme-example:
     runs-on: ubuntu-latest
     needs:
       - upload-dist
@@ -155,8 +123,7 @@ jobs:
         with:
           name: dist
           path: ${{ env.dist-path }}
-      - name: Perform simple passing string equality assertion
-        id: equal-strings
+      - id: equal-strings
         uses: ./
         with:
           assertion: local://.github/workflows/assertions/is-equal
@@ -167,7 +134,6 @@ jobs:
         with:
           assertion: npm://@assertions/is-equal
           actual: "${{ steps.equal-strings.outputs.message }}"
-          # Expect the `message` from ./assertions/is-equal.js
           expected: "compared Hello, World! to Hello, World!"
       - name: Test `pass` output is set from Result `pass`
         uses: ./
