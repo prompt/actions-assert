@@ -21,8 +21,6 @@ jobs:
           expected: shrink
 ```
 
-[Jump to examples &darr;](#examples)
-
 :package: [Automatic Release Packaging](#automatic-release-packaging) is used by
 this action, please reference by tag or commit hash in your Workflows.
 
