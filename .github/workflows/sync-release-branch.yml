@@ -5,19 +5,15 @@ on:
     branches:
       - "main"
 
-env:
-  source: "origin/main"
-  release: "release"
-
 jobs:
   update-branch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: "${{ env.release }}"
+          ref: "release"
           fetch-depth: 0
           ssh-key: "${{ secrets.COMMIT_KEY }}"
       - uses: pr-mpt/actions-merge-branch@v1
         with:
-          from: "origin/${{ env.source }}"
+          from: "origin/main"
