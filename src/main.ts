@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import {executeTests, Test, Assertion} from './execute'
 import {InputType} from './inputs'
 import {resolveAssertion} from './assertions'
+import {env} from 'process'
 
 const types = {
   string: InputType.String,
@@ -9,10 +10,20 @@ const types = {
   json: InputType.Json
 }
 
+function hasInput(name: string): boolean {
+  const envKey = `INPUT_${name.replace(/ /g, '_').toUpperCase()}`
+
+  return envKey in process.env
+}
+
 async function run(): Promise<void> {
   try {
-    const expected: string = core.getInput('expected')
-    const actual: string = core.getInput('actual')
+    const expected: string | null = hasInput('expected')
+      ? core.getInput('expected')
+      : null
+    const actual: string | null = hasInput('actual')
+      ? core.getInput('actual')
+      : null
     const assertion: string = core.getInput('assertion')
     const type: string = core.getInput('type')
     const each: boolean = core.getBooleanInput('each')
@@ -32,7 +43,11 @@ async function run(): Promise<void> {
       localPath
     )
 
-    const actualValues: String[] = each === true ? actual.split('\n') : [actual]
+    let actualValues: (String | null)[] = [null]
+
+    if (actual !== null) {
+      actualValues = each === true ? actual.split('\n') : [actual]
+    }
 
     const tests: Test[] = actualValues.map(actualValue => {
       return {
