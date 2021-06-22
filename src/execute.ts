@@ -6,8 +6,7 @@ export interface Result {
 }
 
 export interface Assertion {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (expected: any, actual: any): Result
+  (expected: unknown, actual: unknown): Result
 }
 
 export interface Test {

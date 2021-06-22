@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import {executeTests, Test, Assertion} from './execute'
 import {InputType} from './inputs'
 import {resolveAssertion} from './assertions'
-import {env} from 'process'
+import {hasActionInput} from './utils'
 
 const types = {
   string: InputType.String,
@@ -10,18 +10,12 @@ const types = {
   json: InputType.Json
 }
 
-function hasInput(name: string): boolean {
-  const envKey = `INPUT_${name.replace(/ /g, '_').toUpperCase()}`
-
-  return envKey in process.env
-}
-
 async function run(): Promise<void> {
   try {
-    const expected: string | null = hasInput('expected')
+    const expected: string | null = hasActionInput('expected')
       ? core.getInput('expected')
       : null
-    const actual: string | null = hasInput('actual')
+    const actual: string | null = hasActionInput('actual')
       ? core.getInput('actual')
       : null
     const assertion: string = core.getInput('assertion')
