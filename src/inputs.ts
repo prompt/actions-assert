@@ -20,6 +20,9 @@ export const coercions = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function valueOfInput(input: Input): any {
+  if (input.value === null) {
+    return null
+  }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return create(input.value, coercions[input.type])
