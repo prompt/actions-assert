@@ -27,4 +27,13 @@ describe('input coercer', () => {
 
     expect(valueOfInput(input)).toStrictEqual({greeting: 'Hello, World!'})
   })
+
+  test('does not coerce null', () => {
+    const input: Input = {
+      type: InputType.Number,
+      value: null
+    }
+
+    expect(valueOfInput(input)).toStrictEqual(null)
+  })
 })
