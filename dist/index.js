@@ -75,6 +75,9 @@ exports.coercions = {
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function valueOfInput(input) {
+    if (input.value === null) {
+        return null;
+    }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return superstruct_1.create(input.value, exports.coercions[input.type]);
@@ -118,10 +121,18 @@ const types = {
     number: inputs_1.InputType.Number,
     json: inputs_1.InputType.Json
 };
+function hasInput(name) {
+    const envKey = `INPUT_${name.replace(/ /g, '_').toUpperCase()}`;
+    return envKey in process.env;
+}
 async function run() {
     try {
-        const expected = core.getInput('expected');
-        const actual = core.getInput('actual');
+        const expected = hasInput('expected')
+            ? core.getInput('expected')
+            : null;
+        const actual = hasInput('actual')
+            ? core.getInput('actual')
+            : null;
         const assertion = core.getInput('assertion');
         const type = core.getInput('type');
         const each = core.getBooleanInput('each');
@@ -133,7 +144,10 @@ async function run() {
         // @ts-ignore
         const typeOfInput = types[type];
         const assertionFunction = await assertions_1.resolveAssertion(assertion, localPath);
-        const actualValues = each === true ? actual.split('\n') : [actual];
+        let actualValues = [null];
+        if (actual !== null) {
+            actualValues = each === true ? actual.split('\n') : [actual];
+        }
         const tests = actualValues.map(actualValue => {
             return {
                 expected: { type: typeOfInput, value: expected },
