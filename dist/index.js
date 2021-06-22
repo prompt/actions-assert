@@ -116,21 +116,18 @@ const core = __importStar(__webpack_require__(2186));
 const execute_1 = __webpack_require__(3532);
 const inputs_1 = __webpack_require__(6180);
 const assertions_1 = __webpack_require__(6018);
+const utils_1 = __webpack_require__(918);
 const types = {
     string: inputs_1.InputType.String,
     number: inputs_1.InputType.Number,
     json: inputs_1.InputType.Json
 };
-function hasInput(name) {
-    const envKey = `INPUT_${name.replace(/ /g, '_').toUpperCase()}`;
-    return envKey in process.env;
-}
 async function run() {
     try {
-        const expected = hasInput('expected')
+        const expected = utils_1.hasActionInput('expected')
             ? core.getInput('expected')
             : null;
-        const actual = hasInput('actual')
+        const actual = utils_1.hasActionInput('actual')
             ? core.getInput('actual')
             : null;
         const assertion = core.getInput('assertion');
@@ -168,6 +165,22 @@ async function run() {
     }
 }
 run();
+
+
+/***/ }),
+
+/***/ 918:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hasActionInput = void 0;
+const process_1 = __webpack_require__(1765);
+function hasActionInput(name) {
+    return `INPUT_${name.replace(/ /g, '_').toUpperCase()}` in process_1.env;
+}
+exports.hasActionInput = hasActionInput;
 
 
 /***/ }),
@@ -18965,6 +18978,14 @@ module.exports = require("os");;
 
 "use strict";
 module.exports = require("path");;
+
+/***/ }),
+
+/***/ 1765:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("process");;
 
 /***/ }),
 
