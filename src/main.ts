@@ -58,6 +58,7 @@ async function run(): Promise<void> {
 
       core.setOutput('message', result.message)
       core.setOutput('pass', result.pass.toString())
+      core.setOutput('passed', result.pass.toString())
     })
   } catch (error) {
     core.setFailed(error.message)
