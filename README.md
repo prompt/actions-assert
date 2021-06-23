@@ -24,6 +24,14 @@ jobs:
 :package: [Automatic Release Packaging](#automatic-release-packaging) is used by
 this action, please reference by tag or commit hash in your Workflows.
 
+## Outputs
+
+| Name | Description | Example |
+| :--- | :---------- | :-------|
+| `message` | Human readable result of the assertion | `Value is equal to expected "Hello, World!"` |
+| `passed` | Boolean describing whether the assertion passed | `true` |
+| `failed` | Boolean describing whether the assertion failed | `false` |
+
 ## Inputs
 
 | Name | Description | Default | Examples |
@@ -88,13 +96,6 @@ assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
 | `string` | A Javascript [`String`<sup>&neArr;</sup>][javascript/string] |
 | `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number] |
 | `json` | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
-
-## Outputs
-
-| Name | Description | Example |
-| :--- | :---------- | :-------|
-| `message` | Human readable result of the assertion | `Value is Hello, World!` |
-| `passed` | Boolean describing whether the assertion passed | `true` |
 
 ## Examples
 
