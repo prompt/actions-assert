@@ -94,7 +94,7 @@ assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
 | Name | Description | Example |
 | :--- | :---------- | :-------|
 | `message` | Human readable result of the assertion | `Value is Hello, World!` |
-| `pass` | Boolean describing whether the assertion passed | `true` |
+| `passed` | Boolean describing whether the assertion passed | `true` |
 
 ## Examples
 
