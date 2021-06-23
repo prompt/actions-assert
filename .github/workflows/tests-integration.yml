@@ -141,3 +141,9 @@ jobs:
           assertion: npm://@assertions/is-equal
           actual: "${{ steps.equal-strings.outputs.pass }}"
           expected: "true"
+      - name: Test `passed` has the same value as `pass`
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          expected: "${{ steps.equal-strings.outputs.pass }}"
+          actual: "${{ steps.equal-strings.outputs.passed }}"
