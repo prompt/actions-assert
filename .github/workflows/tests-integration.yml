@@ -147,3 +147,22 @@ jobs:
           assertion: npm://@assertions/is-equal
           expected: "${{ steps.equal-strings.outputs.pass }}"
           actual: "${{ steps.equal-strings.outputs.passed }}"
+      - id: unequal-strings
+        uses: ./
+        continue-on-error: true
+        with:
+          assertion: local://.github/workflows/assertions/is-equal
+          expected: "Hello, World!"
+          actual: "Goodbye, World!"
+      - name: Test `failed` is true when assertion did not pass
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.unequal-strings.outputs.failed }}
+          expected: "true"
+      - name: Test `passed` is false when assertion did not pass
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.unequal-strings.outputs.passed }}
+          expected: "false"
