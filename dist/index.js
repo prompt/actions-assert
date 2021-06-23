@@ -158,6 +158,7 @@ async function run() {
                 : core.setFailed(`❌ ${result.message}`);
             core.setOutput('message', result.message);
             core.setOutput('pass', result.pass.toString());
+            core.setOutput('passed', result.pass.toString());
         });
     }
     catch (error) {
