@@ -179,7 +179,7 @@ jobs:
       - id: no-version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal
+          assertion: npm://@assertions/test-fixture
           expected: "a"
           actual: "a"
       - name: Test npm assertion without version defaults to v1
@@ -191,7 +191,7 @@ jobs:
       - id: major-version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:v2
+          assertion: npm://@assertions/test-fixture:v2
           expected: "a"
           actual: "a"
       - name: Test npm assertion with major version uses correct version
@@ -203,7 +203,7 @@ jobs:
       - id: minor-version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:v2.4
+          assertion: npm://@assertions/test-fixture:v2.4
           expected: "a"
           actual: "a"
       - name: Test npm assertion with minor version uses correct version
@@ -215,7 +215,7 @@ jobs:
       - id: unprefixed-version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:0
+          assertion: npm://@assertions/test-fixture:0
           expected: "a"
           actual: "a"
       - name: Test npm assertion with unprefixed version uses correct version
