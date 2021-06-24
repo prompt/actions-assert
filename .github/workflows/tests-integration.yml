@@ -166,3 +166,61 @@ jobs:
           assertion: npm://@assertions/is-equal
           actual: ${{ steps.unequal-strings.outputs.passed }}
           expected: "false"
+  test-npm-versions:
+    runs-on: ubuntu-latest
+    needs:
+      - upload-dist
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
+      - id: no-version
+        uses: ./
+        with:
+          assertion: npm://@assertions/test-fixture
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion without version defaults to v1
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.no-version.outputs.message }}
+          expected: "v1 compared a to a"
+      - id: major-version
+        uses: ./
+        with:
+          assertion: npm://@assertions/test-fixture:v2
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion with major version uses correct version
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.major-version.outputs.message }}
+          expected: "v2 compared a to a"
+      - id: minor-version
+        uses: ./
+        with:
+          assertion: npm://@assertions/test-fixture:v2.4
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion with minor version uses correct version
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.minor-version.outputs.message }}
+          expected: "v2 compared a to a"
+      - id: unprefixed-version
+        uses: ./
+        with:
+          assertion: npm://@assertions/test-fixture:0
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion with unprefixed version uses correct version
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.unprefixed-version.outputs.message }}
+          expected: "v0 compared a to a"
