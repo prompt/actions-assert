@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {executeTests, Test, Assertion} from './execute'
+import {executeTests, Test, Assertion, Result, AggregateResult} from './execute'
 import {InputType} from './inputs'
 import {resolveAssertion} from './assertions'
 import {hasActionInput} from './utils'
@@ -51,16 +51,18 @@ async function run(): Promise<void> {
       }
     })
 
-    executeTests(tests).forEach(result => {
-      result.pass
-        ? core.info(`✅ ${result.message}`)
-        : core.setFailed(`❌ ${result.message}`)
+    const results: Result[] = executeTests(tests);
 
-      core.setOutput('message', result.message)
-      core.setOutput('pass', result.pass.toString())
-      core.setOutput('passed', result.pass.toString())
-      core.setOutput('failed', (! result.pass).toString())
+    results.forEach(result => {
+      core.info(`${result.pass ? `✅` : `❌`} ${result.message}`)
     })
+
+    const aggregateResult: AggregateResult = new AggregateResult(results)
+
+    core.setOutput('message', aggregateResult.message)
+    core.setOutput('pass', aggregateResult.pass.toString())
+    core.setOutput('passed', aggregateResult.pass.toString())
+    core.setOutput('failed', (! aggregateResult.pass).toString())
   } catch (error) {
     core.setFailed(error.message)
   }
