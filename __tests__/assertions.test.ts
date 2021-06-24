@@ -16,20 +16,6 @@ describe('assertions resolver', () => {
     })
   })
 
-  describe('npm resolution', () => {
-    it('resolves npm package to module', () => {
-      expect.assertions(1)
-
-      const isEqual = require('@pr-mpt/assertions-is-equal')
-
-      return resolveAssertion(
-        'npm://@pr-mpt/assertions-is-equal'
-      ).then(assertion =>
-        expect(assertion.toString()).toStrictEqual(isEqual.toString())
-      )
-    })
-  })
-
   it('throws error when no source is provided', () => {
     expect.assertions(1)
     return resolveAssertion('without-source').catch(e =>

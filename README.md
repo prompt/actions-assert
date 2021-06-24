@@ -16,7 +16,7 @@ jobs:
       - name: Test actor is @shrink
         uses: pr-mpt/actions-assert@v3
         with:
-          assertion: npm://@assertions/is-equal
+          assertion: npm://@assertions/is-equal:v1
           actual: "${{ github.actor }}"
           expected: shrink
 ```
@@ -36,12 +36,20 @@ this action, please reference by tag or commit hash in your Workflows.
 
 | Name | Description | Default | Examples |
 | :--- | :---------- | :------ | :------- |
-| **`assertion`** | **Reference to a supported [assertion](#assertions) in `source://name` format** | | **`npm://@assertions/is-equal`**<br/>**`local://is-even`** |
+| **`assertion`** | **Reference to a supported [assertion](#assertions) in `source://name` format** | | **`npm://@assertions/is-equal:v1`**<br/>**`local://is-even`** |
 | `expected` | Value the assertion is looking for | | `Hello, World!` |
 | `actual` | Value the assertion will test against the expected value | | `${{steps.fields.outputs.greeting}}` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
 | `each` | Parse multi-line `actual` into many values and test each | `false` | `true` `false` |
 | `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
+
+### Data Types
+
+| Name | Description |
+| :--- | :---------- |
+| `string` | A Javascript [`String`<sup>&neArr;</sup>][javascript/string] |
+| `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number] |
+| `json` | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
 
 ### Assertions
 
@@ -65,10 +73,26 @@ Assertion references are resolved using `source` and `name` accepted in
 
 | Source | Resolved To | Example |
 | :--- | :---------- | :------ |
-| `npm` | An [npm<sup>&neArr;</sup>][npm] package with an assertion as the [main exported module<sup>&neArr;</sup>][package.json/main] | `npm://@assertions/is-equal` |
+| `npm` | An [npm<sup>&neArr;</sup>][npm] package with an assertion as the [main exported module<sup>&neArr;</sup>][package.json/main] | `npm://@assertions/is-equal:v1` |
 | `local` | A Javascript file (on the runner's filesystem) that exports an assertion as default | `local://is-equal` |
 
 ##### `npm`
+
+###### Version Pinning
+
+:pushpin: An npm assertion reference **should** include a valid npm package
+version. Unlike npm itself, an npm assertion reference without a version will
+default to `v1` instead of `latest`.
+
+```yaml
+ℹ️ assertion: npm://@assertions/is-equal
+✅ assertion: npm://@assertions/is-equal:1
+✅ assertion: npm://@assertions/is-equal:v1
+✅ assertion: npm://@assertions/is-equal:v1.0.0
+✅ assertion: npm://@assertions/is-equal:latest
+```
+
+###### @assertions
 
 A collection of first-party assertions is available on npm within the
 [`@assertions`<sup>&neArr;</sup>][npm/@assertions] organisation.
@@ -88,14 +112,6 @@ Third-party assertions are discoverable via
 Add :bookmark: `actions-assert` to
 [package.json `keywords`<sup>&neArr;</sup>][package.json/keywords] for an
 assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
-
-### Data Types
-
-| Name | Description |
-| :--- | :---------- |
-| `string` | A Javascript [`String`<sup>&neArr;</sup>][javascript/string] |
-| `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number] |
-| `json` | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
 
 ## Examples
 
@@ -120,7 +136,7 @@ jobs:
       - name: Assert alias is prefixed
         uses: pr-mpt/actions-assert@v3
         with:
-          assertion: npm://@assertions/starts-with
+          assertion: npm://@assertions/starts-with:v1
           each: true
           actual: "${{ steps.prefixed.outputs.list }}"
           expected: "v"

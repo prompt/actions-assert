@@ -2,11 +2,13 @@ import {Assertion} from './execute'
 import {PluginManager} from 'live-plugin-manager'
 
 async function loadAssertionFromNpmPackage(name: string): Promise<Assertion> {
-  const manager = new PluginManager()
+  const manager = new PluginManager();
 
-  await manager.install(name)
+  const [packageName, version = 'v1'] = name.split(':');
 
-  return manager.require(name)
+  await manager.install(packageName, version)
+
+  return manager.require(packageName)
 }
 
 const resolvers = {
