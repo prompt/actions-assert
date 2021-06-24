@@ -22,6 +22,7 @@ async function run(): Promise<void> {
     const type: string = core.getInput('type')
     const each: boolean = core.getBooleanInput('each')
     const localPath: string = core.getInput('local-path')
+    const errorOnFail: boolean = core.getBooleanInput('error-on-fail')
 
     if (type in types === false) {
       throw new Error(
@@ -59,7 +60,7 @@ async function run(): Promise<void> {
 
     const aggregateResult: AggregateResult = new AggregateResult(results)
 
-    if (!aggregateResult.pass) {
+    if (!aggregateResult.pass && errorOnFail) {
       core.setFailed(aggregateResult.message)
     }
 

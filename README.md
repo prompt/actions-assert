@@ -41,6 +41,7 @@ jobs:
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
 | `each` | Parse multi-line `actual` into many values and perform assertion against each | `false` | `true` `false` |
 | `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
+| `error-on-fail` | Report error in step when assertion fails | `true` | `false` |
 
 ### Data Types
 

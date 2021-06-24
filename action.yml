@@ -26,6 +26,10 @@ inputs:
     description: "Path to assertions on the runner's filesystem"
     default: "${{ github.workspace }}"
     required: true
+  error-on-fail:
+    description: "Report error in step when assertion fails"
+    default: "true"
+    required: true
 outputs:
   message:
     description: "Human readable result of the assertion"

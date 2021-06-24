@@ -311,3 +311,10 @@ jobs:
           assertion: npm://@assertions/is-equal:v1
           expected: "failure"
           actual: "${{ steps.failed.outcome }}"
+      - name: Test failed step does not have error when error on fail is disabled
+        uses: ./
+        with:
+          assertion: local://.github/workflows/assertions/is-equal
+          actual: "Bye bye!"
+          expected: "Goodbye, World!"
+          error-on-fail: false
