@@ -176,23 +176,51 @@ jobs:
         with:
           name: dist
           path: ${{ env.dist-path }}
-      - name: Perform assertion using npm package without a version specified
+      - id: no-version
         uses: ./
         with:
           assertion: npm://@assertions/is-equal
-      - name: Perform assertion using npm package with a major version specified
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion without version defaults to v1
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:v1
-      - name: Perform assertion using npm package with a minor version specified
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.no-version.outputs.message }}
+          expected: "v1 compared a to a"
+      - id: major-version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:v1.0
-      - name: Perform assertion using npm package without a version prefix
+          assertion: npm://@assertions/is-equal:v2
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion with major version uses correct version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:1
-      - name: Perform assertion using npm package with latest keyword
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.major-version.outputs.message }}
+          expected: "v2 compared a to a"
+      - id: minor-version
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:latest
+          assertion: npm://@assertions/is-equal:v2.4
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion with minor version uses correct version
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.minor-version.outputs.message }}
+          expected: "v2 compared a to a"
+      - id: unprefixed-version
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:0
+          expected: "a"
+          actual: "a"
+      - name: Test npm assertion with unprefixed version uses correct version
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+          actual: ${{ steps.unprefixed-version.outputs.message }}
+          expected: "v0 compared a to a"
