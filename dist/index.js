@@ -165,6 +165,9 @@ async function run() {
             core.info(`${result.pass ? `✅` : `❌`} ${result.message}`);
         });
         const aggregateResult = new execute_1.AggregateResult(results);
+        if (!aggregateResult.pass) {
+            core.setFailed(aggregateResult.message);
+        }
         core.setOutput('message', aggregateResult.message);
         core.setOutput('pass', aggregateResult.pass.toString());
         core.setOutput('passed', aggregateResult.pass.toString());
