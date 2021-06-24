@@ -36,6 +36,9 @@
     "jest-circus": "^26.6.3",
     "js-yaml": "^3.14.0",
     "prettier": "2.2.1",
+    "test-fixture-0": "npm:@assertions/test-fixture@^0.1.0",
+    "test-fixture-1": "npm:@assertions/test-fixture@^1.0.0",
+    "test-fixture-2": "npm:@assertions/test-fixture@^2.4.1",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.3"
   }

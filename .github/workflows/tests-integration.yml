@@ -166,3 +166,33 @@ jobs:
           assertion: npm://@assertions/is-equal
           actual: ${{ steps.unequal-strings.outputs.passed }}
           expected: "false"
+  test-npm-versions:
+    runs-on: ubuntu-latest
+    needs:
+      - upload-dist
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
+      - name: Perform assertion using npm package without a version specified
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal
+      - name: Perform assertion using npm package with a major version specified
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:v1
+      - name: Perform assertion using npm package with a minor version specified
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:v1.0
+      - name: Perform assertion using npm package without a version prefix
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:1
+      - name: Perform assertion using npm package with latest keyword
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:latest
