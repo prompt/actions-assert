@@ -248,8 +248,7 @@ jobs:
           each: true
       - name: Test `pass` is not true when one test of many does not pass
         uses: ./
-        continue-on-error: true
         with:
           assertion: npm://@assertions/is-equal
           expected: "false"
-          actual: "${{ steps.multiple.outputs.pass }}"
+          actual: "${{ steps.multiple.outputs.passed }}"
