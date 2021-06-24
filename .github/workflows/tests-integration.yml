@@ -310,4 +310,4 @@ jobs:
         with:
           assertion: npm://@assertions/is-equal:v1
           expected: "failure"
-          actual: "${{ steps.multiple-passed.outcome }}"
+          actual: "${{ steps.failed.outcome }}"
