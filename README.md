@@ -1,7 +1,7 @@
 # Assert
 
-A GitHub Action for asserting **actual** is **expected** in GitHub Workflows.
-Designed for GitHub Action integration tests and robust build pipelines.
+A GitHub Action for asserting **actual** is **expected** in GitHub Workflows,
+designed for GitHub Action integration tests and robust build pipelines.
 
 * Cast action input values from strings to `type` for type safety
 * Distribute reusable assertions via npm
@@ -39,7 +39,7 @@ jobs:
 | `expected` | Value the assertion is looking for | | `Hello, World!` |
 | `actual` | Value the assertion will test against the expected value | | `${{steps.fields.outputs.greeting}}` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
-| `each` | Parse multi-line `actual` into many values and test each | `false` | `true` `false` |
+| `each` | Parse multi-line `actual` into many values and perform assertion against each | `false` | `true` `false` |
 | `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
 
 ### Data Types
@@ -50,11 +50,17 @@ jobs:
 | `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number] |
 | `json` | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
 
+### Each
+
+When `each` is enabled, `actual` is split by new-line into multiple values and
+asserts against each value. The final result is an aggregate of each result: all
+individual assertions must pass for the aggregate to pass.
+
 ### Assertions
 
 An `assertion` is a Javascript function that accepts `expected` and `actual`
-parameters then returns a `Result`. A `Result` has a boolean `pass` parameter
-and a `message` string.
+parameters and then returns a `Result`. A `Result` has a boolean `pass`
+parameter and a `message` string.
 
 ```javascript
 module.exports = function (expected, actual) {
@@ -65,10 +71,10 @@ module.exports = function (expected, actual) {
 }
 ```
 
-Assertion references are resolved using `source` and `name` accepted in
-`source://name` format.
-
 #### Sources
+
+The test builder resolves assertion references using `source` and `name`
+accepted in `source://name` format.
 
 | Source | Resolved To | Example |
 | :--- | :---------- | :------ |
@@ -117,7 +123,7 @@ assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
 ### SemVer Aliases Are Prefixed
 
 [pr-mpt/actions-semver-aliases] generates aliases for a Semantic Version with an
-optional prefix, in this example the job tests that the optional prefix is
+optional prefix, in this example, the job tests that the optional prefix is
 applied to each alias.
 
 ```yaml
@@ -150,8 +156,9 @@ assertions is available in
 
 ### Delete Invalid Tags
 
-A repository may restrict tags to commits that include a specific file, in this
-example a newly created tag is deleted if the directory (`dist`) does not exist.
+A repository may restrict tags to commits that include a specific file; in this
+example, the job deletes a newly created tag if the distributable directory
+(`dist`) does not exist.
 
 ```yaml
 on:
@@ -175,9 +182,9 @@ jobs:
 
 ## Automatic Release Packaging
 
-Packaging (creation of `dist`) happens automatically when a new tag is created.
-Any reference to this Action in a Workflow must use a [tag][tags] (mutable) or
-the commit hash of a tag (immutable).
+A Workflow packages the Action automatically when a collaborator created a new
+tag. Any reference to this Action in a Workflow must use a [tag][tags] (mutable)
+or the commit hash of a tag (immutable).
 
 ```yaml
 ✅ uses: pr-mpt/actions-assert@v2
