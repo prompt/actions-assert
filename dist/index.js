@@ -12,8 +12,9 @@ exports.resolveAssertion = void 0;
 const live_plugin_manager_1 = __webpack_require__(1290);
 async function loadAssertionFromNpmPackage(name) {
     const manager = new live_plugin_manager_1.PluginManager();
-    await manager.install(name);
-    return manager.require(name);
+    const [packageName, version = 'v1'] = name.split(':');
+    await manager.install(packageName, version);
+    return manager.require(packageName);
 }
 const resolvers = {
     npm: loadAssertionFromNpmPackage,
