@@ -1,4 +1,4 @@
-import {executeTests, Test, Result} from '../src/execute'
+import {executeTests, Test, Result, AggregateResult} from '../src/execute'
 import {InputType, Input} from '../src/inputs'
 
 const helloWorldStringAssertion = function (
@@ -72,5 +72,55 @@ describe('test executor', () => {
     const results: Result[] = [helloWorldPassResult, helloWorldFailResult]
 
     expect(executeTests(tests)).toStrictEqual(results)
+  })
+})
+
+describe('AggregateResult', () => {
+  it('passes when all results passed', () => {
+    const aggregateResult = new AggregateResult([
+      {pass: true, message: 'Example'},
+      {pass: true, message: 'Example'},
+      {pass: true, message: 'Example'}
+    ])
+
+    expect(aggregateResult.pass).toStrictEqual(true)
+  })
+
+  it('does not pass when one result of many did not pass', () => {
+    const aggregateResult = new AggregateResult([
+      {pass: true, message: ''},
+      {pass: false, message: ''},
+      {pass: true, message: ''}
+    ])
+
+    expect(aggregateResult.pass).toStrictEqual(false)
+  })
+
+  it('does not pass when only result did not pass', () => {
+    const aggregateResult = new AggregateResult([
+      {pass: false, message: ''},
+    ])
+
+    expect(aggregateResult.pass).toStrictEqual(false)
+  })
+
+  it('passed when only result passed', () => {
+    const aggregateResult = new AggregateResult([
+      {pass: true, message: ''},
+    ])
+
+    expect(aggregateResult.pass).toStrictEqual(true)
+  })
+
+  it('joins results messages in order with new lines', () => {
+    const aggregateResult = new AggregateResult([
+      {pass: true, message: 'Message a'},
+      {pass: true, message: 'Message b'},
+      {pass: true, message: 'Message c'}
+    ])
+
+    const expectedMessage = 'Message a\nMessage b\nMessage c';
+
+    expect(aggregateResult.message).toStrictEqual(expectedMessage)
   })
 })
