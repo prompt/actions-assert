@@ -21,8 +21,7 @@ jobs:
           expected: shrink
 ```
 
-:package: [Automatic Release Packaging](#automatic-release-packaging) is used by
-this action, please reference by tag or commit hash in your Workflows.
+[Jump to complete examples &darr;](#examples)
 
 ## Outputs
 
@@ -118,9 +117,12 @@ assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
 ### SemVer Aliases Are Prefixed
 
 [pr-mpt/actions-semver-aliases] generates aliases for a Semantic Version with an
-optional prefix, here we test that this prefix is applied to each alias.
+optional prefix, in this example the job tests that the optional prefix is
+applied to each alias.
 
 ```yaml
+on: push
+
 jobs:
   test-aliases-are-prefixed:
     runs-on: ubuntu-latest
@@ -140,6 +142,35 @@ jobs:
           each: true
           actual: "${{ steps.prefixed.outputs.list }}"
           expected: "v"
+```
+
+A complete test Workflow for [pr-mpt/actions-semver-aliases] using multiple
+assertions is available in
+[`.github/workflows/test.yml`][pr-mpt/actions-semver-aliases/tests].
+
+### Delete Invalid Tags
+
+A repository may restrict tags to commits that include a specific file, in this
+example a newly created tag is deleted if the directory (`dist`) does not exist.
+
+```yaml
+on:
+  push:
+    tags:
+      - "**"
+
+jobs:
+  validate-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pr-mpt/actions-assert@v3
+        with:
+          assertion: npm://@assertions/directory-exists:v1
+          expected: dist
+      - if: failure()
+        name: Delete tag
+        uses: pr-mpt/actions-delete-tag@v1
 ```
 
 ## Automatic Release Packaging
@@ -175,3 +206,4 @@ describes how this achieved.
 [workflows/workspace]: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
 [blog/package-automatically]: https://medium.com/prompt/package-github-actions-automatically-with-github-actions-a70b9f7bae4
 [tags]: https://github.com/pr-mpt/actions-assert/tags
+[pr-mpt/actions-semver-aliases/tests]: https://github.com/pr-mpt/actions-semver-aliases/blob/main/.github/workflows/test.yml
