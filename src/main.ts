@@ -60,7 +60,7 @@ async function run(): Promise<void> {
     const aggregateResult: AggregateResult = new AggregateResult(results)
 
     if (!aggregateResult.pass) {
-      core.setFailed('Assertion did not pass.')
+      core.setFailed(aggregateResult.message)
     }
 
     core.setOutput('message', aggregateResult.message)
