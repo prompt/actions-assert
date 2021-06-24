@@ -52,9 +52,9 @@ jobs:
 
 ### Each
 
-When `each` is enabled, `actual` is split by new-line into multiple values and
-asserts against each value. The final result is an aggregate of each result: all
-individual assertions must pass for the aggregate to pass.
+When `each` is enabled, the Action splits `actual` by new-line into multiple
+values and asserts against each value. The final result is an aggregate of each
+result: all individual assertions must pass for the aggregate to pass.
 
 ### Assertions
 
