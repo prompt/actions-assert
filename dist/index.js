@@ -142,6 +142,7 @@ async function run() {
         const type = core.getInput('type');
         const each = core.getBooleanInput('each');
         const localPath = core.getInput('local-path');
+        const errorOnFail = core.getBooleanInput('error-on-fail');
         if (type in types === false) {
             throw new Error(`${type} is not a valid type, valid: ${Object.keys(types).join(', ')}`);
         }
@@ -165,7 +166,7 @@ async function run() {
             core.info(`${result.pass ? `✅` : `❌`} ${result.message}`);
         });
         const aggregateResult = new execute_1.AggregateResult(results);
-        if (!aggregateResult.pass) {
+        if (!aggregateResult.pass && errorOnFail) {
             core.setFailed(aggregateResult.message);
         }
         core.setOutput('message', aggregateResult.message);
