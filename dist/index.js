@@ -43,7 +43,7 @@ exports.resolveAssertion = resolveAssertion;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.executeTests = void 0;
+exports.AggregateResult = exports.executeTests = void 0;
 const inputs_1 = __webpack_require__(6180);
 function executeTests(tests) {
     return tests.map(function (t) {
@@ -51,6 +51,13 @@ function executeTests(tests) {
     });
 }
 exports.executeTests = executeTests;
+class AggregateResult {
+    constructor(results) {
+        this.pass = results.filter(result => result.pass).length === results.length;
+        this.message = results.map(result => result.message).join('\n');
+    }
+}
+exports.AggregateResult = AggregateResult;
 
 
 /***/ }),
@@ -153,15 +160,15 @@ async function run() {
                 assertion: assertionFunction
             };
         });
-        execute_1.executeTests(tests).forEach(result => {
-            result.pass
-                ? core.info(`✅ ${result.message}`)
-                : core.setFailed(`❌ ${result.message}`);
-            core.setOutput('message', result.message);
-            core.setOutput('pass', result.pass.toString());
-            core.setOutput('passed', result.pass.toString());
-            core.setOutput('failed', (!result.pass).toString());
+        const results = execute_1.executeTests(tests);
+        results.forEach(result => {
+            core.info(`${result.pass ? `✅` : `❌`} ${result.message}`);
         });
+        const aggregateResult = new execute_1.AggregateResult(results);
+        core.setOutput('message', aggregateResult.message);
+        core.setOutput('pass', aggregateResult.pass.toString());
+        core.setOutput('passed', aggregateResult.pass.toString());
+        core.setOutput('failed', (!aggregateResult.pass).toString());
     }
     catch (error) {
         core.setFailed(error.message);
