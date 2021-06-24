@@ -51,7 +51,7 @@ async function run(): Promise<void> {
       }
     })
 
-    const results: Result[] = executeTests(tests);
+    const results: Result[] = executeTests(tests)
 
     results.forEach(result => {
       core.info(`${result.pass ? `✅` : `❌`} ${result.message}`)
@@ -59,10 +59,14 @@ async function run(): Promise<void> {
 
     const aggregateResult: AggregateResult = new AggregateResult(results)
 
+    if (!aggregateResult.pass) {
+      core.setFailed(aggregateResult.message)
+    }
+
     core.setOutput('message', aggregateResult.message)
     core.setOutput('pass', aggregateResult.pass.toString())
     core.setOutput('passed', aggregateResult.pass.toString())
-    core.setOutput('failed', (! aggregateResult.pass).toString())
+    core.setOutput('failed', (!aggregateResult.pass).toString())
   } catch (error) {
     core.setFailed(error.message)
   }
