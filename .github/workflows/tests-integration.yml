@@ -72,6 +72,20 @@ jobs:
           assertion: local://.github/workflows/assertions/is-even
           actual: 2
           type: number
+  test-default-null:
+    runs-on: ubuntu-latest
+    needs:
+      - upload-dist
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
+      - name: Test `expected` and `actual` are both null when not provided
+        uses: ./
+        with:
+          assertion: local://.github/workflows/assertions/is-null
   test-npm-assertion:
     runs-on: ubuntu-latest
     needs:
