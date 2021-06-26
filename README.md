@@ -42,6 +42,10 @@ jobs:
 | `each` | Parse multi-line `actual` into many values and perform assertion against each | `false` | `true` `false` |
 | `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
 | `error-on-fail` | Report error in step when assertion fails | `true` | `false` |
+| `convert-empty-to-null`<sup>[1]</sup> | Convert empty input values to null | `true` | `false` |
+
+[1] `convert-empty-to-null` is a workaround for a
+[GitHub Actions Runner bug #924][runner/empty-input-bug]
 
 ### Data Types
 
@@ -215,3 +219,4 @@ describes how this achieved.
 [blog/package-automatically]: https://medium.com/prompt/package-github-actions-automatically-with-github-actions-a70b9f7bae4
 [tags]: https://github.com/pr-mpt/actions-assert/tags
 [pr-mpt/actions-semver-aliases/tests]: https://github.com/pr-mpt/actions-semver-aliases/blob/main/.github/workflows/test.yml
+[runner/empty-input-bug]: https://github.com/actions/runner/issues/924
