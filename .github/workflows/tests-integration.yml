@@ -86,6 +86,13 @@ jobs:
         uses: ./
         with:
           assertion: local://.github/workflows/assertions/is-null
+      - name: Test `expected` and `actual` are both null when provided with conversion enabled
+        uses: ./
+        with:
+          assertion: local://.github/workflows/assertions/is-null
+          expected: ""
+          actual: ""
+          convert-empty-to-null: true
       - name: Test empty values are default when convert empty to null is disabled
         uses: ./
         with:
