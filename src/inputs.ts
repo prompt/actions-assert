@@ -19,7 +19,6 @@ export const coercions = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function valueOfInput(input: Input): any {
-  console.log(input)
   if (input.value === null) {
     return null
   }
