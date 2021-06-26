@@ -30,6 +30,7 @@ async function run(): Promise<void> {
       )
     }
 
+    core.debug(JSON.stringify(process.env))
     core.debug(`actual ${hasActionInput('actual')}: ${typeof actual} ${actual}`)
     core.debug(
       `expected ${hasActionInput('actual')}: ${typeof expected} ${expected}`
