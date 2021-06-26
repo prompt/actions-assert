@@ -84,7 +84,7 @@ jobs:
           path: ${{ env.dist-path }}
       - run: cat ${{ env.GITHUB_EVENT_PATH }}
       - run: cat ${{ env.GITHUB_ENV }}
-      - run: ${{ JSON.stringify(github) }}
+      - run: ${{ toJSON(github) }}
       - name: Test `expected` and `actual` are both null when not provided
         uses: ./
         with:
