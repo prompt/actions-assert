@@ -30,6 +30,9 @@ inputs:
     description: "Report error in step when assertion fails"
     default: "true"
     required: true
+  error-message:
+    description: "Error message to output when assertion fails"
+    required: false
   convert-empty-to-null:
     description: "Convert empty input values to null"
     default: "true"
@@ -43,6 +46,8 @@ outputs:
     description: "Boolean describing whether the assertion passed"
   failed:
     description: "Boolean describing whether the assertion failed"
+  error:
+    description: "Error message (if any) that has been output to the log"
 runs:
   using: "node12"
   main: "dist/index.js"

@@ -348,3 +348,42 @@ jobs:
           actual: "Bye bye!"
           expected: "Goodbye, World!"
           error-on-fail: false
+  test-error-message:
+    runs-on: ubuntu-latest
+    needs:
+      - upload-dist
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
+      - name: Perform failing assertion with custom Error Message
+        id: with-error-message
+        continue-on-error: true
+        uses: ./
+        with:
+          assertion: local://.github/workflows/assertions/is-equal
+          actual: "Bye bye!"
+          expected: "Goodbye, World!"
+          error-message: "The two different strings are not equal"
+      - name: Test custom Error Message is used
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:v1
+          expected: "The two different strings are not equal"
+          actual: "${{ steps.with-error-message.outputs.error }}"
+      - name: Perform failing assertion without custom Error Message
+        id: without-error-message
+        continue-on-error: true
+        uses: ./
+        with:
+          assertion: local://.github/workflows/assertions/is-equal
+          actual: "Bye bye!"
+          expected: "Goodbye, World!"
+      - name: Test assertion message is used as default error
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:v1
+          expected: "compared Bye bye! to Goodbye, World!"
+          actual: "${{ steps.without-error-message.outputs.error }}"
