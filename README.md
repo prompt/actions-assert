@@ -38,11 +38,11 @@ jobs:
 | **`assertion`** | **Reference to a supported [assertion](#assertions) in `source://name` format** | | **`npm://@assertions/is-equal:v1`**<br/>**`local://is-even`** |
 | `expected` | Value the assertion is looking for | | `Hello, World!` |
 | `actual` | Value the assertion will test against the expected value | | `${{steps.fields.outputs.greeting}}` |
+| `error-message` | Error message to output when assertion fails |  | `Commit does not include a distributable build` |
 | `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
 | `each` | Parse multi-line `actual` into many values and perform assertion against each | `false` | `true` `false` |
 | `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
 | `error-on-fail` | Report error in step when assertion fails | `true` | `false` |
-| `error-message` | Error message to output when assertion fails |  | `Commit does not include a distributable build` |
 | `convert-empty-to-null`<sup>[1]</sup> | Convert empty input values to null | `true` | `false` |
 
 [1] `convert-empty-to-null` is a workaround for a
@@ -154,6 +154,7 @@ jobs:
           each: true
           actual: "${{ steps.prefixed.outputs.list }}"
           expected: "v"
+          error-message: "SemVer Alias is not prefixed with v"
 ```
 
 A complete test Workflow for [pr-mpt/actions-semver-aliases] using multiple
@@ -181,6 +182,7 @@ jobs:
         with:
           assertion: npm://@assertions/directory-exists:v1
           expected: dist
+          error-message: "A commit without a dist is not allowed to be tagged"
       - if: failure()
         name: Delete tag
         uses: pr-mpt/actions-delete-tag@v1
