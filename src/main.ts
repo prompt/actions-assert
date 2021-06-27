@@ -23,7 +23,9 @@ async function run(): Promise<void> {
     const each: boolean = core.getBooleanInput('each')
     const localPath: string = core.getInput('local-path')
     const errorOnFail: boolean = core.getBooleanInput('error-on-fail')
-    const errorMessage: string = core.getInput('error-message')
+    const errorMessage: string | null = hasActionInput('errorMessage')
+      ? core.getInput('errorMessage')
+      : null
 
     if (type in types === false) {
       throw new Error(
