@@ -64,7 +64,9 @@ async function run(): Promise<void> {
     const aggregateResult: AggregateResult = new AggregateResult(results)
 
     if (!aggregateResult.pass && errorOnFail) {
-      core.setFailed(errorMessage ?? aggregateResult.message)
+      const error: string = errorMessage ?? aggregateResult.message
+      core.setFailed(error)
+      core.setOutput('error', error)
     }
 
     core.setOutput('message', aggregateResult.message)

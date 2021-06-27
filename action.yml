@@ -46,6 +46,8 @@ outputs:
     description: "Boolean describing whether the assertion passed"
   failed:
     description: "Boolean describing whether the assertion failed"
+  error:
+    description: "Error message (if any) that has been output to the log"
 runs:
   using: "node12"
   main: "dist/index.js"
