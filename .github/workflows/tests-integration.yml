@@ -171,9 +171,8 @@ jobs:
       - name: Test `pass` output is set from Result `pass`
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal
+          assertion: npm://@assertions/is-true:v1
           actual: "${{ steps.equal-strings.outputs.pass }}"
-          expected: "true"
       - name: Test `passed` has the same value as `pass`
         uses: ./
         with:
@@ -190,9 +189,8 @@ jobs:
       - name: Test `failed` is true when assertion did not pass
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal
+          assertion: npm://@assertions/is-true:v1
           actual: ${{ steps.unequal-strings.outputs.failed }}
-          expected: "true"
       - name: Test `passed` is false when assertion did not pass
         uses: ./
         with:
@@ -299,8 +297,7 @@ jobs:
       - name: Test `passed` is true when all tests passed
         uses: ./
         with:
-          assertion: npm://@assertions/is-equal:v1
-          expected: "true"
+          assertion: npm://@assertions/is-true:v1
           actual: "${{ steps.multiple-passed.outputs.passed }}"
       - name: Test multiple result messages are aggregated on pass
         uses: ./
