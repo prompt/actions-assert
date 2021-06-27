@@ -348,3 +348,28 @@ jobs:
           actual: "Bye bye!"
           expected: "Goodbye, World!"
           error-on-fail: false
+  test-error-message:
+    runs-on: ubuntu-latest
+    needs:
+      - upload-dist
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ${{ env.dist-path }}
+      - name: Test two different strings are equal
+        id: equal-strings
+        continue-on-error: true
+        uses: ./
+        with:
+          assertion: local://.github/workflows/assertions/is-equal
+          actual: "Bye bye!"
+          expected: "Goodbye, World!"
+          error-message: "The two different strings are not equal"
+      - name: Test previous step failed
+        uses: ./
+        with:
+          assertion: npm://@assertions/is-equal:v1
+          expected: "failure"
+          actual: "${{ steps.equal-strings.outcome }}"

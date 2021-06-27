@@ -30,6 +30,9 @@ inputs:
     description: "Report error in step when assertion fails"
     default: "true"
     required: true
+  error-message:
+    description: "Error message to output when assertion fails"
+    required: false
   convert-empty-to-null:
     description: "Convert empty input values to null"
     default: "true"

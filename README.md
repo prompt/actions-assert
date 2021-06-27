@@ -42,6 +42,7 @@ jobs:
 | `each` | Parse multi-line `actual` into many values and perform assertion against each | `false` | `true` `false` |
 | `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
 | `error-on-fail` | Report error in step when assertion fails | `true` | `false` |
+| `error-message` | Error message to output when assertion fails |  | `Commit does not include a distributable build` |
 | `convert-empty-to-null`<sup>[1]</sup> | Convert empty input values to null | `true` | `false` |
 
 [1] `convert-empty-to-null` is a workaround for a
