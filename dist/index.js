@@ -143,6 +143,9 @@ async function run() {
         const each = core.getBooleanInput('each');
         const localPath = core.getInput('local-path');
         const errorOnFail = core.getBooleanInput('error-on-fail');
+        const errorMessage = utils_1.hasActionInput('error-message')
+            ? core.getInput('error-message')
+            : null;
         if (type in types === false) {
             throw new Error(`${type} is not a valid type, valid: ${Object.keys(types).join(', ')}`);
         }
@@ -167,7 +170,9 @@ async function run() {
         });
         const aggregateResult = new execute_1.AggregateResult(results);
         if (!aggregateResult.pass && errorOnFail) {
-            core.setFailed(aggregateResult.message);
+            const error = errorMessage !== null && errorMessage !== void 0 ? errorMessage : aggregateResult.message;
+            core.setFailed(error);
+            core.setOutput('error', error);
         }
         core.setOutput('message', aggregateResult.message);
         core.setOutput('pass', aggregateResult.pass.toString());
