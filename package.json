@@ -23,7 +23,8 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "live-plugin-manager": "^0.15.1",
+    "live-plugin-manager": "^0.17.0",
+    "minipass": "^3.3.5",
     "superstruct": "^0.15.2"
   },
   "devDependencies": {
