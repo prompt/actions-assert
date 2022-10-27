@@ -17,7 +17,7 @@ jobs:
         uses: pr-mpt/actions-assert@v4
         with:
           assertion: npm://@assertions/is-equal:v1
-          actual: '${{ github.actor }}'
+          actual: "${{ github.actor }}"
           expected: shrink
 ```
 
@@ -143,8 +143,8 @@ jobs:
         id: prefixed
         uses: pr-mpt/actions-semver-aliases@v1
         with:
-          version: '3.14.1'
-          prefix: 'v'
+          version: "3.14.1"
+          prefix: "v"
           major: true
           minor: false
       - name: Assert alias is prefixed
@@ -152,9 +152,9 @@ jobs:
         with:
           assertion: npm://@assertions/starts-with:v1
           each: true
-          actual: '${{ steps.prefixed.outputs.list }}'
-          expected: 'v'
-          error-message: 'SemVer Alias is not prefixed with v'
+          actual: "${{ steps.prefixed.outputs.list }}"
+          expected: "v"
+          error-message: "SemVer Alias is not prefixed with v"
 ```
 
 A complete test Workflow for [pr-mpt/actions-semver-aliases] using multiple
@@ -171,7 +171,7 @@ example, the job deletes a newly created tag if the distributable directory
 on:
   push:
     tags:
-      - '**'
+      - "**"
 
 jobs:
   validate-tag:
@@ -182,7 +182,7 @@ jobs:
         with:
           assertion: npm://@assertions/directory-exists:v1
           expected: dist
-          error-message: 'A commit without a dist is not allowed to be tagged'
+          error-message: "A commit without a dist is not allowed to be tagged"
       - if: failure()
         name: Delete tag
         uses: pr-mpt/actions-delete-tag@v1
