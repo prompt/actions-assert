@@ -49,5 +49,5 @@ outputs:
   error:
     description: "Error message (if any) that has been output to the log"
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/index.js"

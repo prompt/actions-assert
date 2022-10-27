@@ -73,7 +73,7 @@ async function run(): Promise<void> {
     core.setOutput('pass', aggregateResult.pass.toString())
     core.setOutput('passed', aggregateResult.pass.toString())
     core.setOutput('failed', (!aggregateResult.pass).toString())
-  } catch (error) {
+  } catch (error: any) {
     core.setFailed(error.message)
   }
 }

@@ -97,17 +97,13 @@ describe('AggregateResult', () => {
   })
 
   it('does not pass when only result did not pass', () => {
-    const aggregateResult = new AggregateResult([
-      {pass: false, message: ''},
-    ])
+    const aggregateResult = new AggregateResult([{pass: false, message: ''}])
 
     expect(aggregateResult.pass).toStrictEqual(false)
   })
 
   it('passed when only result passed', () => {
-    const aggregateResult = new AggregateResult([
-      {pass: true, message: ''},
-    ])
+    const aggregateResult = new AggregateResult([{pass: true, message: ''}])
 
     expect(aggregateResult.pass).toStrictEqual(true)
   })
@@ -119,7 +115,7 @@ describe('AggregateResult', () => {
       {pass: true, message: 'Message c'}
     ])
 
-    const expectedMessage = 'Message a\nMessage b\nMessage c';
+    const expectedMessage = 'Message a\nMessage b\nMessage c'
 
     expect(aggregateResult.message).toStrictEqual(expectedMessage)
   })

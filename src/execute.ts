@@ -6,6 +6,7 @@ export interface Result {
 }
 
 export interface Assertion {
+  // eslint-disable-next-line @typescript-eslint/prefer-function-type
   (expected: unknown, actual: unknown): Result
 }
 
