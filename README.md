@@ -3,10 +3,10 @@
 A GitHub Action for asserting **actual** is **expected** in GitHub Workflows,
 designed for GitHub Action integration tests and robust build pipelines.
 
-* Cast action input values from strings to `type` for type safety
-* Distribute reusable assertions via npm
-* Write local Javascript assertions to meet project-specific testing needs
-* Run tests against multiple values using `each`
+- Cast action input values from strings to `type` for type safety
+- Distribute reusable assertions via npm
+- Write local Javascript assertions to meet project-specific testing needs
+- Run tests against multiple values using `each`
 
 ```yaml
 jobs:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test actor is @shrink
-        uses: pr-mpt/actions-assert@v3
+        uses: pr-mpt/actions-assert@v4
         with:
           assertion: npm://@assertions/is-equal:v1
           actual: "${{ github.actor }}"
@@ -25,36 +25,36 @@ jobs:
 
 ## Outputs
 
-| Name | Description | Example |
-| :--- | :---------- | :-------|
-| `message` | Human readable result of the assertion | `Value is equal to expected "Hello, World!"` |
-| `passed` | Boolean describing whether the assertion passed | `true` |
-| `failed` | Boolean describing whether the assertion failed | `false` |
+| Name      | Description                                     | Example                                      |
+| :-------- | :---------------------------------------------- | :------------------------------------------- |
+| `message` | Human readable result of the assertion          | `Value is equal to expected "Hello, World!"` |
+| `passed`  | Boolean describing whether the assertion passed | `true`                                       |
+| `failed`  | Boolean describing whether the assertion failed | `false`                                      |
 
 ## Inputs
 
-| Name | Description | Default | Examples |
-| :--- | :---------- | :------ | :------- |
-| **`assertion`** | **Reference to a supported [assertion](#assertions) in `source://name` format** | | **`npm://@assertions/is-equal:v1`**<br/>**`local://is-even`** |
-| `expected` | Value the assertion is looking for | | `Hello, World!` |
-| `actual` | Value the assertion will test against the expected value | | `${{steps.fields.outputs.greeting}}` |
-| `error-message` | Error message to output when assertion fails |  | `Commit does not include a distributable build` |
-| `type` | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string` | `string` `json` `number` |
-| `each` | Parse multi-line `actual` into many values and perform assertion against each | `false` | `true` `false` |
-| `local-path` | Path to directory containing `local` assertion | `${{github.workspace}}` | `.github/workflows/assertions` |
-| `error-on-fail` | Report error in step when assertion fails | `true` | `false` |
-| `convert-empty-to-null`<sup>[1]</sup> | Convert empty input values to null | `true` | `false` |
+| Name                                  | Description                                                                                                   | Default                 | Examples                                                      |
+| :------------------------------------ | :------------------------------------------------------------------------------------------------------------ | :---------------------- | :------------------------------------------------------------ |
+| **`assertion`**                       | **Reference to a supported [assertion](#assertions) in `source://name` format**                               |                         | **`npm://@assertions/is-equal:v1`**<br/>**`local://is-even`** |
+| `expected`                            | Value the assertion is looking for                                                                            |                         | `Hello, World!`                                               |
+| `actual`                              | Value the assertion will test against the expected value                                                      |                         | `${{steps.fields.outputs.greeting}}`                          |
+| `error-message`                       | Error message to output when assertion fails                                                                  |                         | `Commit does not include a distributable build`               |
+| `type`                                | A supported [data type](#data-types) that `actual` and `expected` will be cast to before performing assertion | `string`                | `string` `json` `number`                                      |
+| `each`                                | Parse multi-line `actual` into many values and perform assertion against each                                 | `false`                 | `true` `false`                                                |
+| `local-path`                          | Path to directory containing `local` assertion                                                                | `${{github.workspace}}` | `.github/workflows/assertions`                                |
+| `error-on-fail`                       | Report error in step when assertion fails                                                                     | `true`                  | `false`                                                       |
+| `convert-empty-to-null`<sup>[1]</sup> | Convert empty input values to null                                                                            | `true`                  | `false`                                                       |
 
 [1] `convert-empty-to-null` is a workaround for a
 [GitHub Actions Runner bug #924][runner/empty-input-bug]
 
 ### Data Types
 
-| Name | Description |
-| :--- | :---------- |
-| `string` | A Javascript [`String`<sup>&neArr;</sup>][javascript/string] |
-| `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number] |
-| `json` | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
+| Name     | Description                                                                               |
+| :------- | :---------------------------------------------------------------------------------------- |
+| `string` | A Javascript [`String`<sup>&neArr;</sup>][javascript/string]                              |
+| `number` | A Javascript [`Number`<sup>&neArr;</sup>][javascript/number]                              |
+| `json`   | JavaScript value or object from [`JSON.parse()`<sup>&neArr;</sup>][javascript/json/parse] |
 
 ### Each
 
@@ -71,7 +71,7 @@ parameter and a `message` string.
 ```javascript
 module.exports = function (expected, actual) {
   return {
-    pass: (actual === expected),
+    pass: actual === expected,
     message: `compared ${actual} to ${expected}`
   }
 }
@@ -82,10 +82,10 @@ module.exports = function (expected, actual) {
 The test builder resolves assertion references using `source` and `name`
 accepted in `source://name` format.
 
-| Source | Resolved To | Example |
-| :--- | :---------- | :------ |
-| `npm` | An [npm<sup>&neArr;</sup>][npm] package with an assertion as the [main exported module<sup>&neArr;</sup>][package.json/main] | `npm://@assertions/is-equal:v1` |
-| `local` | A Javascript file (on the runner's filesystem) that exports an assertion as default | `local://is-equal` |
+| Source  | Resolved To                                                                                                                  | Example                         |
+| :------ | :--------------------------------------------------------------------------------------------------------------------------- | :------------------------------ |
+| `npm`   | An [npm<sup>&neArr;</sup>][npm] package with an assertion as the [main exported module<sup>&neArr;</sup>][package.json/main] | `npm://@assertions/is-equal:v1` |
+| `local` | A Javascript file (on the runner's filesystem) that exports an assertion as default                                          | `local://is-equal`              |
 
 ##### `npm`
 
@@ -108,12 +108,12 @@ default to `v1` instead of `latest`.
 A collection of first-party assertions is available on npm within the
 [`@assertions`<sup>&neArr;</sup>][npm/@assertions] organisation.
 
-| Package | Test |
-| :------ | :---------- |
-| [@assertions/is-equal] | `actual` is equal in value to `expected` |
+| Package                         | Test                                              |
+| :------------------------------ | :------------------------------------------------ |
+| [@assertions/is-equal]          | `actual` is equal in value to `expected`          |
 | [@assertions/is-strictly-equal] | `actual` is equal in value and type to `expected` |
-| [@assertions/starts-with] | `actual` starts with `expected` |
-| [@assertions/directory-exists] | path `expected` exists and is a directory |
+| [@assertions/starts-with]       | `actual` starts with `expected`                   |
+| [@assertions/directory-exists]  | path `expected` exists and is a directory         |
 
 Third-party assertions are discoverable via
 [:mag_right: `actions-assert` on npm][npm/search].
@@ -148,7 +148,7 @@ jobs:
           major: true
           minor: false
       - name: Assert alias is prefixed
-        uses: pr-mpt/actions-assert@v3
+        uses: pr-mpt/actions-assert@v4
         with:
           assertion: npm://@assertions/starts-with:v1
           each: true
@@ -178,7 +178,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: pr-mpt/actions-assert@v3
+      - uses: pr-mpt/actions-assert@v4
         with:
           assertion: npm://@assertions/directory-exists:v1
           expected: dist
