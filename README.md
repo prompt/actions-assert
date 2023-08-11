@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test actor is @shrink
-        uses: pr-mpt/actions-assert@v4
+        uses: prompt/actions-assert@v4
         with:
           assertion: npm://@assertions/is-equal:v1
           actual: "${{ github.actor }}"
@@ -128,7 +128,7 @@ assertion to be discoverable via [npm search<sup>&neArr;</sup>][npm/search].
 
 ### SemVer Aliases Are Prefixed
 
-[pr-mpt/actions-semver-aliases] generates aliases for a Semantic Version with an
+[prompt/actions-semver-aliases] generates aliases for a Semantic Version with an
 optional prefix, in this example, the job tests that the optional prefix is
 applied to each alias.
 
@@ -141,14 +141,14 @@ jobs:
     steps:
       - name: Generate SemVer aliases with prefix
         id: prefixed
-        uses: pr-mpt/actions-semver-aliases@v1
+        uses: prompt/actions-semver-aliases@v1
         with:
           version: "3.14.1"
           prefix: "v"
           major: true
           minor: false
       - name: Assert alias is prefixed
-        uses: pr-mpt/actions-assert@v4
+        uses: prompt/actions-assert@v4
         with:
           assertion: npm://@assertions/starts-with:v1
           each: true
@@ -157,9 +157,9 @@ jobs:
           error-message: "SemVer Alias is not prefixed with v"
 ```
 
-A complete test Workflow for [pr-mpt/actions-semver-aliases] using multiple
+A complete test Workflow for [prompt/actions-semver-aliases] using multiple
 assertions is available in
-[`.github/workflows/test.yml`][pr-mpt/actions-semver-aliases/tests].
+[`.github/workflows/test.yml`][prompt/actions-semver-aliases/tests].
 
 ### Delete Invalid Tags
 
@@ -178,14 +178,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: pr-mpt/actions-assert@v4
+      - uses: prompt/actions-assert@v4
         with:
           assertion: npm://@assertions/directory-exists:v1
           expected: dist
           error-message: "A commit without a dist is not allowed to be tagged"
       - if: failure()
         name: Delete tag
-        uses: pr-mpt/actions-delete-tag@v1
+        uses: prompt/actions-delete-tag@v1
 ```
 
 ## Automatic Release Packaging
@@ -195,10 +195,10 @@ tag. Any reference to this Action in a Workflow must use a [tag][tags] (mutable)
 or the commit hash of a tag (immutable).
 
 ```yaml
-✅ uses: pr-mpt/actions-assert@v2
-✅ uses: pr-mpt/actions-assert@v2.0.0
-✅ uses: pr-mpt/actions-assert@0d888b7601af756fff1ffc9d0d0dca8fcc214f0a
-❌ uses: pr-mpt/actions-assert@main
+✅ uses: prompt/actions-assert@v2
+✅ uses: prompt/actions-assert@v2.0.0
+✅ uses: prompt/actions-assert@0d888b7601af756fff1ffc9d0d0dca8fcc214f0a
+❌ uses: prompt/actions-assert@main
 ```
 
 The blog post
@@ -208,7 +208,7 @@ describes how this achieved.
 [javascript/string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
 [javascript/number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number
 [javascript/json/parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
-[pr-mpt/actions-semver-aliases]: https://github.com/pr-mpt/actions-semver-aliases
+[prompt/actions-semver-aliases]: https://github.com/prompt/actions-semver-aliases
 [npm]: https://npmjs.com
 [npm/search]: https://www.npmjs.com/search?q=keywords%3Aactions-assert
 [package.json/main]: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
@@ -220,6 +220,6 @@ describes how this achieved.
 [npm/@assertions]: https://www.npmjs.com/org/assertions
 [workflows/workspace]: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
 [blog/package-automatically]: https://medium.com/prompt/package-github-actions-automatically-with-github-actions-a70b9f7bae4
-[tags]: https://github.com/pr-mpt/actions-assert/tags
-[pr-mpt/actions-semver-aliases/tests]: https://github.com/pr-mpt/actions-semver-aliases/blob/main/.github/workflows/test.yml
+[tags]: https://github.com/prompt/actions-assert/tags
+[prompt/actions-semver-aliases/tests]: https://github.com/prompt/actions-semver-aliases/blob/main/.github/workflows/test.yml
 [runner/empty-input-bug]: https://github.com/actions/runner/issues/924

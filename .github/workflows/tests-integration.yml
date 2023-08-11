@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: Install Javascript dependencies with npm
         if: ${{ github.ref != 'refs/heads/release' }}
         run: npm install
@@ -133,7 +136,7 @@ jobs:
           path: ${{ env.dist-path }}
       - name: Generate SemVer aliases with prefix
         id: prefixed
-        uses: pr-mpt/actions-semver-aliases@v1
+        uses: prompt/actions-semver-aliases@v1
         with:
           version: "3.14.1"
           prefix: "v"
