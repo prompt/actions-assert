@@ -133,7 +133,7 @@ jobs:
           path: ${{ env.dist-path }}
       - name: Generate SemVer aliases with prefix
         id: prefixed
-        uses: pr-mpt/actions-semver-aliases@v1
+        uses: prompt/actions-semver-aliases@v1
         with:
           version: "3.14.1"
           prefix: "v"

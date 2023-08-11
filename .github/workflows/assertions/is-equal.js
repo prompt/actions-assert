@@ -3,7 +3,7 @@
 // Action consumers.
 
 // Please see the documentation for available assertions
-// https://github.com/pr-mpt/actions-assert#assertions
+// https://github.com/prompt/actions-assert#assertions
 
 module.exports = function (expected, actual) {
   return {
