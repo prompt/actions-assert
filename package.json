@@ -11,7 +11,7 @@
     "style": "npm run format && npm run lint"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=24.0.0"
   },
   "keywords": [
     "actions",
@@ -19,7 +19,7 @@
     "assertions",
     "assert"
   ],
-  "author": "Samuel Ryan <sam@samryan.co.uk>",
+  "author": "Samuel Ryan <sam@shr.ink>",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",
@@ -32,7 +32,7 @@
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.9",
     "@typescript-eslint/parser": "^5",
-    "@vercel/ncc": "^0.25.1",
+    "@vercel/ncc": "^0.38.4",
     "eslint": "^8",
     "eslint-plugin-github": "^4.1.1",
     "eslint-plugin-jest": "^26",
