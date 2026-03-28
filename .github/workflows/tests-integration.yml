@@ -12,17 +12,17 @@ jobs:
   upload-dist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version-file: "package.json"
       - name: Install Javascript dependencies with npm
         if: ${{ github.ref != 'refs/heads/release' }}
         run: npm install
       - name: Package action for integration tests
         if: ${{ github.ref != 'refs/heads/release' }}
         run: npm run package
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -31,8 +31,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -64,8 +64,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -80,8 +80,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -113,8 +113,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -129,8 +129,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -154,8 +154,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -205,8 +205,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -263,8 +263,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -325,8 +325,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -356,8 +356,8 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
