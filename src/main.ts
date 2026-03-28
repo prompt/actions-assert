@@ -73,8 +73,12 @@ async function run(): Promise<void> {
     core.setOutput('pass', aggregateResult.pass.toString())
     core.setOutput('passed', aggregateResult.pass.toString())
     core.setOutput('failed', (!aggregateResult.pass).toString())
-  } catch (error: any) {
-    core.setFailed(error.message)
+  } catch (error: unknown) {
+    core.setFailed(
+      error instanceof Error
+        ? error.message
+        : 'an unknown error occurred when running actions-assert'
+    )
   }
 }
 

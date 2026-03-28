@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test actor is @shrink
-        uses: prompt/actions-assert@v4
+        uses: prompt/actions-assert@v5
         with:
           assertion: npm://@assertions/is-equal:v1
           actual: "${{ github.actor }}"
@@ -148,7 +148,7 @@ jobs:
           major: true
           minor: false
       - name: Assert alias is prefixed
-        uses: prompt/actions-assert@v4
+        uses: prompt/actions-assert@v5
         with:
           assertion: npm://@assertions/starts-with:v1
           each: true
@@ -178,7 +178,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: prompt/actions-assert@v4
+      - uses: prompt/actions-assert@v5
         with:
           assertion: npm://@assertions/directory-exists:v1
           expected: dist
@@ -195,8 +195,8 @@ tag. Any reference to this Action in a Workflow must use a [tag][tags] (mutable)
 or the commit hash of a tag (immutable).
 
 ```yaml
-✅ uses: prompt/actions-assert@v2
-✅ uses: prompt/actions-assert@v2.0.0
+✅ uses: prompt/actions-assert@v5
+✅ uses: prompt/actions-assert@v5.0.0
 ✅ uses: prompt/actions-assert@0d888b7601af756fff1ffc9d0d0dca8fcc214f0a
 ❌ uses: prompt/actions-assert@main
 ```
