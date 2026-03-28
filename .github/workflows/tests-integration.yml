@@ -12,7 +12,7 @@ jobs:
   upload-dist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: "package.json"
@@ -31,7 +31,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -64,7 +64,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -80,7 +80,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -113,7 +113,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -129,7 +129,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -154,7 +154,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -205,7 +205,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -263,7 +263,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -325,7 +325,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
@@ -356,7 +356,7 @@ jobs:
     needs:
       - upload-dist
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v2
         with:
           name: dist
