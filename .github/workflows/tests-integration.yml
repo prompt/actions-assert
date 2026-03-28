@@ -32,7 +32,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -65,7 +65,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -81,7 +81,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -114,7 +114,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -130,7 +130,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -155,7 +155,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -206,7 +206,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -264,7 +264,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -326,7 +326,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
@@ -357,7 +357,7 @@ jobs:
       - upload-dist
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v8
         with:
           name: dist
           path: ${{ env.dist-path }}
